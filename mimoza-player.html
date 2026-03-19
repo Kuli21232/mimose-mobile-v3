@@ -1,0 +1,973 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>Мимоза — Player</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://mcp.figma.com/mcp/html-to-design/capture.js" async></script>
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --bg: #050505;
+  --text: #FFFFFF;
+  --text-60: rgba(255,255,255,0.6);
+  --text-30: rgba(255,255,255,0.3);
+  --text-12: rgba(255,255,255,0.12);
+  --text-06: rgba(255,255,255,0.06);
+  --glass: rgba(255,255,255,0.08);
+  --glass-border: rgba(255,255,255,0.06);
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  background: #000;
+  color: var(--text);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+/* ===== LAYOUT ===== */
+.showcase {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 60px 40px;
+  gap: 60px;
+  flex-wrap: wrap;
+  background: #000;
+}
+
+.screen-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+.screen-label {
+  font-size: 12px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--text-30);
+  font-weight: 500;
+}
+
+/* ===== PHONE FRAME ===== */
+.phone {
+  width: 393px;
+  height: 852px;
+  background: var(--bg);
+  border-radius: 48px;
+  overflow: hidden;
+  position: relative;
+  border: 1px solid rgba(255,255,255,0.06);
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,0.02),
+    0 50px 100px -20px rgba(0,0,0,0.9),
+    0 0 80px rgba(0,0,0,0.6);
+}
+
+/* Dynamic Island */
+.island {
+  width: 126px;
+  height: 36px;
+  background: #000;
+  border-radius: 20px;
+  position: absolute;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 300;
+}
+
+/* ===== PLAYER SCREEN ===== */
+.player {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Background artwork blur */
+.player-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+.player-bg-image {
+  width: 100%;
+  height: 100%;
+  background:
+    radial-gradient(ellipse at 30% 20%, rgba(80,60,60,0.4) 0%, transparent 60%),
+    radial-gradient(ellipse at 70% 60%, rgba(40,35,45,0.5) 0%, transparent 50%),
+    radial-gradient(ellipse at 50% 80%, rgba(30,25,35,0.6) 0%, transparent 40%),
+    var(--bg);
+  filter: blur(0px);
+  transform: scale(1.1);
+}
+.player-bg-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(5,5,5,0.3) 0%,
+    rgba(5,5,5,0.1) 30%,
+    rgba(5,5,5,0.4) 60%,
+    rgba(5,5,5,0.95) 85%,
+    rgba(5,5,5,1) 100%
+  );
+}
+
+/* Content layer */
+.player-content {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 0 24px;
+}
+
+/* ===== TOP BAR ===== */
+.player-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 60px 0 20px;
+}
+.player-top-btn {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: var(--glass);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--glass-border);
+}
+.player-top-btn svg {
+  width: 18px;
+  height: 18px;
+  color: var(--text);
+  opacity: 0.7;
+}
+.player-top-center {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.player-top-tag {
+  padding: 6px 14px;
+  border-radius: 20px;
+  background: var(--glass);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--glass-border);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  color: var(--text-60);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.player-top-tag svg { width: 12px; height: 12px; opacity: 0.6; }
+
+/* ===== ARTWORK ===== */
+.artwork-container {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 8px;
+  min-height: 0;
+}
+.artwork {
+  width: 100%;
+  max-width: 345px;
+  aspect-ratio: 1;
+  border-radius: 20px;
+  overflow: hidden;
+  position: relative;
+  box-shadow:
+    0 20px 60px rgba(0,0,0,0.6),
+    0 0 0 1px rgba(255,255,255,0.04);
+}
+.artwork-image {
+  width: 100%;
+  height: 100%;
+  /* Abstract art-style gradient to simulate dark moody artwork */
+  background:
+    radial-gradient(circle at 25% 30%, rgba(120,80,70,0.8) 0%, transparent 40%),
+    radial-gradient(circle at 75% 25%, rgba(60,50,65,0.6) 0%, transparent 35%),
+    radial-gradient(circle at 40% 70%, rgba(90,65,55,0.7) 0%, transparent 45%),
+    radial-gradient(circle at 65% 60%, rgba(50,40,50,0.9) 0%, transparent 30%),
+    radial-gradient(circle at 80% 80%, rgba(40,30,35,0.8) 0%, transparent 40%),
+    radial-gradient(circle at 20% 80%, rgba(70,50,45,0.5) 0%, transparent 35%),
+    linear-gradient(135deg, #2a1f1f 0%, #1a1520 40%, #15121a 70%, #0d0a0f 100%);
+}
+/* Grain texture over artwork */
+.artwork::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.08'/%3E%3C/svg%3E");
+  background-size: 128px 128px;
+  mix-blend-mode: overlay;
+  pointer-events: none;
+}
+
+/* ===== TRACK INFO ===== */
+.track-section {
+  padding: 24px 0 0;
+}
+.track-name {
+  font-size: 24px;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+  line-height: 1.2;
+  margin-bottom: 6px;
+}
+.track-artists {
+  font-size: 15px;
+  color: var(--text-60);
+  font-weight: 400;
+  letter-spacing: -0.1px;
+}
+
+/* ===== PROGRESS BAR ===== */
+.progress-section {
+  padding: 24px 0 0;
+}
+.progress-track {
+  width: 100%;
+  height: 3px;
+  background: var(--text-12);
+  border-radius: 2px;
+  position: relative;
+  overflow: visible;
+}
+.progress-fill {
+  width: 58%;
+  height: 100%;
+  background: var(--text);
+  border-radius: 2px;
+  position: relative;
+}
+.progress-thumb {
+  position: absolute;
+  right: -7px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--text);
+  box-shadow: 0 0 10px rgba(255,255,255,0.3);
+}
+.progress-times {
+  display: flex;
+  justify-content: space-between;
+  padding-top: 10px;
+  font-size: 12px;
+  color: var(--text-30);
+  font-weight: 400;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.5px;
+}
+
+/* ===== CONTROLS ===== */
+.controls-section {
+  padding: 20px 0 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+}
+.ctrl-btn {
+  width: 56px;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.ctrl-btn svg {
+  color: var(--text);
+}
+.ctrl-btn.secondary svg {
+  opacity: 0.45;
+  width: 22px;
+  height: 22px;
+}
+.ctrl-btn.nav svg {
+  width: 28px;
+  height: 28px;
+  opacity: 0.8;
+}
+
+/* Play button */
+.play-btn {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: var(--text);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 16px;
+  flex-shrink: 0;
+  box-shadow: 0 4px 20px rgba(255,255,255,0.15);
+  position: relative;
+}
+.play-btn svg {
+  width: 28px;
+  height: 28px;
+  color: var(--bg);
+}
+/* Subtle glow ring */
+.play-btn::before {
+  content: '';
+  position: absolute;
+  inset: -4px;
+  border-radius: 50%;
+  border: 1px solid rgba(255,255,255,0.08);
+}
+
+/* ===== BOTTOM ACTIONS ===== */
+.bottom-section {
+  padding: 28px 0 50px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.bottom-action {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--text-30);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.3px;
+}
+.bottom-action svg {
+  width: 20px;
+  height: 20px;
+  opacity: 0.4;
+}
+.bottom-action.liked svg {
+  opacity: 0.7;
+  fill: var(--text);
+  color: var(--text);
+}
+
+/* Home indicator */
+.home-indicator {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 134px;
+  height: 5px;
+  background: rgba(255,255,255,0.2);
+  border-radius: 3px;
+  z-index: 50;
+}
+
+/* ========================================= */
+/* ===== VARIANT 2: EXPANDED PLAYER   ===== */
+/* ========================================= */
+.player-v2 .player-bg-image {
+  background:
+    radial-gradient(ellipse at 20% 40%, rgba(100,75,65,0.5) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 30%, rgba(55,45,60,0.4) 0%, transparent 45%),
+    radial-gradient(ellipse at 50% 90%, rgba(35,28,38,0.7) 0%, transparent 35%),
+    var(--bg);
+}
+
+/* Lyrics visible variant */
+.lyrics-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 10px 0;
+  min-height: 0;
+  overflow: hidden;
+}
+.lyric-line {
+  font-size: 26px;
+  font-weight: 700;
+  line-height: 1.4;
+  letter-spacing: -0.5px;
+  color: var(--text-12);
+  padding: 4px 0;
+  transition: color 0.4s ease, opacity 0.4s ease;
+}
+.lyric-line.active {
+  color: var(--text);
+}
+.lyric-line.near {
+  color: var(--text-30);
+}
+
+/* Compact controls for lyrics view */
+.compact-track {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px 0 8px;
+}
+.compact-art {
+  width: 52px;
+  height: 52px;
+  border-radius: 12px;
+  overflow: hidden;
+  flex-shrink: 0;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.4);
+}
+.compact-art-img {
+  width: 100%;
+  height: 100%;
+  background:
+    radial-gradient(circle at 25% 30%, rgba(120,80,70,0.8) 0%, transparent 40%),
+    radial-gradient(circle at 65% 60%, rgba(50,40,50,0.9) 0%, transparent 30%),
+    linear-gradient(135deg, #2a1f1f 0%, #15121a 70%, #0d0a0f 100%);
+}
+.compact-info { flex: 1; min-width: 0; }
+.compact-name {
+  font-size: 15px;
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  letter-spacing: -0.2px;
+}
+.compact-artist {
+  font-size: 13px;
+  color: var(--text-60);
+  margin-top: 1px;
+}
+.compact-controls {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+.compact-controls svg {
+  width: 22px;
+  height: 22px;
+  opacity: 0.7;
+}
+.compact-play {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--text);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.compact-play svg {
+  width: 18px;
+  height: 18px;
+  color: var(--bg);
+  opacity: 1;
+}
+
+/* Compact progress */
+.compact-progress {
+  padding: 12px 0 0;
+}
+.compact-progress-bar {
+  width: 100%;
+  height: 2px;
+  background: var(--text-12);
+  border-radius: 1px;
+}
+.compact-progress-fill {
+  width: 58%;
+  height: 100%;
+  background: var(--text-60);
+  border-radius: 1px;
+}
+
+/* ========================================= */
+/* ===== VARIANT 3: QUEUE VIEW        ===== */
+/* ========================================= */
+.queue-top-art {
+  width: 100%;
+  height: 200px;
+  border-radius: 20px;
+  overflow: hidden;
+  position: relative;
+  margin-top: 8px;
+}
+.queue-art-img {
+  width: 100%;
+  height: 100%;
+  background:
+    radial-gradient(circle at 25% 30%, rgba(120,80,70,0.8) 0%, transparent 40%),
+    radial-gradient(circle at 65% 60%, rgba(50,40,50,0.9) 0%, transparent 30%),
+    linear-gradient(135deg, #2a1f1f 0%, #15121a 70%, #0d0a0f 100%);
+}
+.queue-art-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, transparent 30%, rgba(5,5,5,0.9) 100%);
+  display: flex;
+  align-items: flex-end;
+  padding: 16px 20px;
+}
+.queue-art-info { flex: 1; }
+.queue-art-name {
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: -0.3px;
+}
+.queue-art-artist {
+  font-size: 13px;
+  color: var(--text-60);
+  margin-top: 2px;
+}
+.queue-art-play {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--text);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.queue-art-play svg { width: 18px; height: 18px; color: var(--bg); margin-left: 2px; }
+
+.queue-progress-inline {
+  height: 2px;
+  background: var(--text-06);
+  border-radius: 1px;
+  margin-top: 12px;
+}
+.queue-progress-inline-fill {
+  width: 58%;
+  height: 100%;
+  background: var(--text-60);
+  border-radius: 1px;
+}
+
+.queue-section-label {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: var(--text-30);
+  font-weight: 600;
+  padding: 20px 0 12px;
+}
+
+.queue-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 0;
+}
+.queue-item-num {
+  width: 20px;
+  text-align: center;
+  font-size: 13px;
+  color: var(--text-30);
+  font-variant-numeric: tabular-nums;
+  flex-shrink: 0;
+}
+.queue-item-art {
+  width: 44px;
+  height: 44px;
+  border-radius: 8px;
+  flex-shrink: 0;
+  overflow: hidden;
+}
+.qi-art-1 { background: linear-gradient(135deg, #1e1a1a, #2a2025); }
+.qi-art-2 { background: linear-gradient(135deg, #1a1e1a, #20252a); }
+.qi-art-3 { background: linear-gradient(135deg, #1a1a1e, #25202a); }
+.qi-art-4 { background: linear-gradient(135deg, #1e1e1a, #2a2520); }
+.qi-art-5 { background: linear-gradient(135deg, #1a1e1e, #202a25); }
+.queue-item-info { flex: 1; min-width: 0; }
+.queue-item-name {
+  font-size: 14px;
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  letter-spacing: -0.1px;
+}
+.queue-item-artist {
+  font-size: 12px;
+  color: var(--text-30);
+  margin-top: 1px;
+}
+.queue-item-dur {
+  font-size: 12px;
+  color: var(--text-30);
+  font-variant-numeric: tabular-nums;
+  flex-shrink: 0;
+}
+.queue-item-more {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  opacity: 0.2;
+}
+
+/* Scrollable queue area */
+.queue-scroll {
+  flex: 1;
+  overflow-y: auto;
+  min-height: 0;
+  padding-bottom: 20px;
+  scrollbar-width: none;
+}
+.queue-scroll::-webkit-scrollbar { display: none; }
+
+/* Tab pills */
+.queue-tabs {
+  display: flex;
+  gap: 8px;
+  padding: 16px 0 4px;
+}
+.q-tab {
+  padding: 7px 16px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text-30);
+  background: var(--text-06);
+  border: 1px solid var(--text-06);
+  letter-spacing: 0.3px;
+}
+.q-tab.active {
+  color: var(--bg);
+  background: var(--text);
+  border-color: var(--text);
+}
+</style>
+</head>
+<body>
+
+<div class="showcase">
+
+<!-- ==================== PLAYER: MAIN VIEW ==================== -->
+<div class="screen-wrap">
+  <span class="screen-label">Now Playing</span>
+  <div class="phone">
+    <div class="island"></div>
+
+    <div class="player">
+      <!-- BG Blur -->
+      <div class="player-bg">
+        <div class="player-bg-image"></div>
+        <div class="player-bg-overlay"></div>
+      </div>
+
+      <div class="player-content">
+        <!-- Top bar -->
+        <div class="player-top">
+          <div class="player-top-btn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg>
+          </div>
+          <div class="player-top-center">
+            <div class="player-top-tag">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+              Моя волна
+            </div>
+          </div>
+          <div class="player-top-btn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="5" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="12" cy="19" r="1"/></svg>
+          </div>
+        </div>
+
+        <!-- Artwork -->
+        <div class="artwork-container">
+          <div class="artwork">
+            <div class="artwork-image"></div>
+          </div>
+        </div>
+
+        <!-- Track info -->
+        <div class="track-section">
+          <div class="track-name">надежды (площадки)</div>
+          <div class="track-artists">kurokov</div>
+        </div>
+
+        <!-- Progress -->
+        <div class="progress-section">
+          <div class="progress-track">
+            <div class="progress-fill">
+              <div class="progress-thumb"></div>
+            </div>
+          </div>
+          <div class="progress-times">
+            <span>1:08</span>
+            <span>1:35</span>
+          </div>
+        </div>
+
+        <!-- Controls -->
+        <div class="controls-section">
+          <div class="ctrl-btn secondary">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 3 21 3 21 8"/><line x1="4" y1="20" x2="21" y2="3"/><polyline points="21 16 21 21 16 21"/><line x1="15" y1="15" x2="21" y2="21"/><line x1="4" y1="4" x2="9" y2="9"/></svg>
+          </div>
+          <div class="ctrl-btn nav">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 6h2v12H6zm3.5 6l8.5 6V6z"/></svg>
+          </div>
+          <div class="play-btn">
+            <svg viewBox="0 0 24 24" fill="currentColor"><rect x="7" y="5" width="3.5" height="14" rx="1"/><rect x="13.5" y="5" width="3.5" height="14" rx="1"/></svg>
+          </div>
+          <div class="ctrl-btn nav">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M16 6h2v12h-2zm-2.5 6L5 6v12z"/></svg>
+          </div>
+          <div class="ctrl-btn secondary">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 014-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 01-4 4H3"/></svg>
+          </div>
+        </div>
+
+        <!-- Bottom actions -->
+        <div class="bottom-section">
+          <div class="bottom-action liked">
+            <svg viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
+            1.2K
+          </div>
+          <div class="bottom-action">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"/></svg>
+            35
+          </div>
+          <div class="bottom-action">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          </div>
+          <div class="bottom-action">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="home-indicator"></div>
+  </div>
+</div>
+
+<!-- ==================== PLAYER: LYRICS VIEW ==================== -->
+<div class="screen-wrap">
+  <span class="screen-label">Lyrics</span>
+  <div class="phone">
+    <div class="island"></div>
+
+    <div class="player player-v2">
+      <div class="player-bg">
+        <div class="player-bg-image"></div>
+        <div class="player-bg-overlay"></div>
+      </div>
+
+      <div class="player-content">
+        <!-- Top bar -->
+        <div class="player-top">
+          <div class="player-top-btn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg>
+          </div>
+          <div class="player-top-center">
+            <div class="player-top-tag">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 11a9 9 0 0 1 9 9"/><path d="M4 4a16 16 0 0 1 16 16"/><circle cx="5" cy="19" r="1"/></svg>
+              Текст песни
+            </div>
+          </div>
+          <div class="player-top-btn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="5" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="12" cy="19" r="1"/></svg>
+          </div>
+        </div>
+
+        <!-- Lyrics -->
+        <div class="lyrics-container">
+          <div class="lyric-line">Мы уходим в ночь</div>
+          <div class="lyric-line">где нет огней</div>
+          <div class="lyric-line near">площадки пустые</div>
+          <div class="lyric-line active">надежды мои</div>
+          <div class="lyric-line near">растают с утра</div>
+          <div class="lyric-line">как будто нас</div>
+          <div class="lyric-line">здесь не было</div>
+          <div class="lyric-line">никогда</div>
+        </div>
+
+        <!-- Compact player at bottom -->
+        <div class="compact-progress">
+          <div class="compact-progress-bar">
+            <div class="compact-progress-fill"></div>
+          </div>
+        </div>
+
+        <div class="compact-track">
+          <div class="compact-art">
+            <div class="compact-art-img"></div>
+          </div>
+          <div class="compact-info">
+            <div class="compact-name">надежды (площадки)</div>
+            <div class="compact-artist">kurokov</div>
+          </div>
+          <div class="compact-controls">
+            <div class="compact-play">
+              <svg viewBox="0 0 24 24" fill="currentColor"><rect x="7" y="5" width="3.5" height="14" rx="1"/><rect x="13.5" y="5" width="3.5" height="14" rx="1"/></svg>
+            </div>
+            <svg viewBox="0 0 24 24" fill="currentColor" style="opacity:0.5"><path d="M16 6h2v12h-2zm-2.5 6L5 6v12z"/></svg>
+          </div>
+        </div>
+
+        <div style="height:44px"></div>
+      </div>
+    </div>
+
+    <div class="home-indicator"></div>
+  </div>
+</div>
+
+<!-- ==================== PLAYER: QUEUE VIEW ==================== -->
+<div class="screen-wrap">
+  <span class="screen-label">Queue</span>
+  <div class="phone">
+    <div class="island"></div>
+
+    <div class="player">
+      <div class="player-bg">
+        <div class="player-bg-image"></div>
+        <div class="player-bg-overlay" style="background:linear-gradient(to bottom,rgba(5,5,5,0.6) 0%,rgba(5,5,5,0.95) 25%,rgba(5,5,5,1) 40%)"></div>
+      </div>
+
+      <div class="player-content" style="display:flex;flex-direction:column;height:100%">
+        <!-- Top bar -->
+        <div class="player-top" style="padding-bottom:12px">
+          <div class="player-top-btn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg>
+          </div>
+          <div class="player-top-center">
+            <div class="player-top-tag">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><circle cx="4" cy="6" r="1.5"/><circle cx="4" cy="12" r="1.5"/><circle cx="4" cy="18" r="1.5"/></svg>
+              Очередь
+            </div>
+          </div>
+          <div class="player-top-btn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="5" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="12" cy="19" r="1"/></svg>
+          </div>
+        </div>
+
+        <!-- Now playing compact -->
+        <div class="queue-top-art">
+          <div class="queue-art-img"></div>
+          <div class="queue-art-overlay">
+            <div class="queue-art-info">
+              <div class="queue-art-name">надежды (площадки)</div>
+              <div class="queue-art-artist">kurokov</div>
+            </div>
+            <div class="queue-art-play">
+              <svg viewBox="0 0 24 24" fill="currentColor"><rect x="7" y="5" width="3.5" height="14" rx="1"/><rect x="13.5" y="5" width="3.5" height="14" rx="1"/></svg>
+            </div>
+          </div>
+        </div>
+
+        <div class="queue-progress-inline">
+          <div class="queue-progress-inline-fill"></div>
+        </div>
+
+        <!-- Tabs -->
+        <div class="queue-tabs">
+          <div class="q-tab active">Далее</div>
+          <div class="q-tab">Похожие</div>
+          <div class="q-tab">История</div>
+        </div>
+
+        <!-- Queue list -->
+        <div class="queue-scroll">
+          <div class="queue-item">
+            <span class="queue-item-num">1</span>
+            <div class="queue-item-art qi-art-1"></div>
+            <div class="queue-item-info">
+              <div class="queue-item-name">Фонари</div>
+              <div class="queue-item-artist">Luvfaygo!</div>
+            </div>
+            <span class="queue-item-dur">1:36</span>
+            <svg class="queue-item-more" viewBox="0 0 20 20" fill="currentColor"><circle cx="10" cy="4" r="1.5"/><circle cx="10" cy="10" r="1.5"/><circle cx="10" cy="16" r="1.5"/></svg>
+          </div>
+          <div class="queue-item">
+            <span class="queue-item-num">2</span>
+            <div class="queue-item-art qi-art-2"></div>
+            <div class="queue-item-info">
+              <div class="queue-item-name">мудаком</div>
+              <div class="queue-item-artist">lightprey</div>
+            </div>
+            <span class="queue-item-dur">1:49</span>
+            <svg class="queue-item-more" viewBox="0 0 20 20" fill="currentColor"><circle cx="10" cy="4" r="1.5"/><circle cx="10" cy="10" r="1.5"/><circle cx="10" cy="16" r="1.5"/></svg>
+          </div>
+          <div class="queue-item">
+            <span class="queue-item-num">3</span>
+            <div class="queue-item-art qi-art-3"></div>
+            <div class="queue-item-info">
+              <div class="queue-item-name">Tote That</div>
+              <div class="queue-item-artist">xankoma7</div>
+            </div>
+            <span class="queue-item-dur">1:39</span>
+            <svg class="queue-item-more" viewBox="0 0 20 20" fill="currentColor"><circle cx="10" cy="4" r="1.5"/><circle cx="10" cy="10" r="1.5"/><circle cx="10" cy="16" r="1.5"/></svg>
+          </div>
+          <div class="queue-item">
+            <span class="queue-item-num">4</span>
+            <div class="queue-item-art qi-art-4"></div>
+            <div class="queue-item-info">
+              <div class="queue-item-name">Обои</div>
+              <div class="queue-item-artist">Locked23</div>
+            </div>
+            <span class="queue-item-dur">1:35</span>
+            <svg class="queue-item-more" viewBox="0 0 20 20" fill="currentColor"><circle cx="10" cy="4" r="1.5"/><circle cx="10" cy="10" r="1.5"/><circle cx="10" cy="16" r="1.5"/></svg>
+          </div>
+          <div class="queue-item">
+            <span class="queue-item-num">5</span>
+            <div class="queue-item-art qi-art-5"></div>
+            <div class="queue-item-info">
+              <div class="queue-item-name">Джинсы или Ньюроки</div>
+              <div class="queue-item-artist">!REVENGE</div>
+            </div>
+            <span class="queue-item-dur">1:52</span>
+            <svg class="queue-item-more" viewBox="0 0 20 20" fill="currentColor"><circle cx="10" cy="4" r="1.5"/><circle cx="10" cy="10" r="1.5"/><circle cx="10" cy="16" r="1.5"/></svg>
+          </div>
+          <div class="queue-item">
+            <span class="queue-item-num">6</span>
+            <div class="queue-item-art qi-art-1"></div>
+            <div class="queue-item-info">
+              <div class="queue-item-name">любят</div>
+              <div class="queue-item-artist">whylovly</div>
+            </div>
+            <span class="queue-item-dur">1:26</span>
+            <svg class="queue-item-more" viewBox="0 0 20 20" fill="currentColor"><circle cx="10" cy="4" r="1.5"/><circle cx="10" cy="10" r="1.5"/><circle cx="10" cy="16" r="1.5"/></svg>
+          </div>
+          <div class="queue-item">
+            <span class="queue-item-num">7</span>
+            <div class="queue-item-art qi-art-3"></div>
+            <div class="queue-item-info">
+              <div class="queue-item-name">Метроном</div>
+              <div class="queue-item-artist">MultiManget</div>
+            </div>
+            <span class="queue-item-dur">2:01</span>
+            <svg class="queue-item-more" viewBox="0 0 20 20" fill="currentColor"><circle cx="10" cy="4" r="1.5"/><circle cx="10" cy="10" r="1.5"/><circle cx="10" cy="16" r="1.5"/></svg>
+          </div>
+        </div>
+
+        <div style="height:30px;flex-shrink:0"></div>
+      </div>
+    </div>
+
+    <div class="home-indicator"></div>
+  </div>
+</div>
+
+</div><!-- end showcase -->
+
+</body>
+</html>

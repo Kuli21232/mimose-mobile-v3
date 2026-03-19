@@ -1,0 +1,1707 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>Мимоза — All Screens</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://mcp.figma.com/mcp/html-to-design/capture.js" async></script>
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --bg: #050505;
+  --text: #FFFFFF;
+  --text-80: rgba(255,255,255,0.8);
+  --text-60: rgba(255,255,255,0.6);
+  --text-40: rgba(255,255,255,0.4);
+  --text-30: rgba(255,255,255,0.3);
+  --text-20: rgba(255,255,255,0.2);
+  --text-12: rgba(255,255,255,0.12);
+  --text-08: rgba(255,255,255,0.08);
+  --text-06: rgba(255,255,255,0.06);
+  --text-04: rgba(255,255,255,0.04);
+  --glass: rgba(255,255,255,0.07);
+  --glass-strong: rgba(255,255,255,0.10);
+  --glass-border: rgba(255,255,255,0.06);
+  --glass-border-strong: rgba(255,255,255,0.10);
+  --r-lg: 20px;
+  --r-md: 14px;
+  --r-sm: 10px;
+  --r-xs: 8px;
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  background: #000;
+  color: var(--text);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+/* ===== SHOWCASE ===== */
+.showcase {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 60px 40px;
+  gap: 48px;
+  flex-wrap: wrap;
+  background: #000;
+  min-height: 100vh;
+}
+.screen-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+.screen-label {
+  font-size: 11px;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: var(--text-30);
+  font-weight: 500;
+}
+
+/* ===== PHONE ===== */
+.phone {
+  width: 393px;
+  height: 852px;
+  background: var(--bg);
+  border-radius: 48px;
+  overflow: hidden;
+  position: relative;
+  border: 1px solid var(--text-06);
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,0.02),
+    0 50px 100px -20px rgba(0,0,0,0.9);
+}
+.island {
+  width: 126px;
+  height: 36px;
+  background: #000;
+  border-radius: 20px;
+  position: absolute;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 300;
+}
+.home-bar {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 134px;
+  height: 5px;
+  background: var(--text-20);
+  border-radius: 3px;
+  z-index: 200;
+}
+
+/* Scrollable inner */
+.phone-scroll {
+  width: 100%;
+  height: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-width: none;
+  padding-bottom: 160px;
+}
+.phone-scroll::-webkit-scrollbar { display: none; }
+
+/* ===== STATUS BAR ===== */
+.statusbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 28px 6px;
+  font-size: 15px;
+  font-weight: 600;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: linear-gradient(to bottom, var(--bg) 50%, transparent);
+}
+.statusbar-r { display: flex; gap: 5px; align-items: center; }
+.statusbar-r svg { width: 17px; height: 17px; opacity: 0.5; }
+
+/* ===== APP HEADER ===== */
+.app-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 24px 14px;
+}
+.app-logo {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+.app-logo svg { width: 22px; height: 22px; }
+.app-logo span {
+  font-size: 17px;
+  font-weight: 700;
+  letter-spacing: -0.4px;
+}
+.app-header-actions { display: flex; gap: 8px; }
+.header-btn {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: var(--glass);
+  border: 1px solid var(--glass-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.header-btn svg { width: 18px; height: 18px; opacity: 0.6; }
+
+/* ===== MINI PLAYER ===== */
+.mini-player {
+  position: absolute;
+  bottom: 84px;
+  left: 14px;
+  right: 14px;
+  background: rgba(18,18,18,0.85);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border-radius: 16px;
+  padding: 10px 14px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  z-index: 50;
+  border: 1px solid var(--glass-border);
+}
+.mp-art {
+  width: 44px;
+  height: 44px;
+  border-radius: var(--r-sm);
+  overflow: hidden;
+  flex-shrink: 0;
+}
+.mp-art-inner {
+  width: 100%;
+  height: 100%;
+  background:
+    radial-gradient(circle at 30% 40%, rgba(100,70,60,0.7) 0%, transparent 50%),
+    radial-gradient(circle at 70% 60%, rgba(50,40,55,0.8) 0%, transparent 40%),
+    linear-gradient(135deg, #221a1a, #12101a);
+}
+.mp-info { flex: 1; min-width: 0; }
+.mp-title {
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: -0.2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.mp-artist {
+  font-size: 11px;
+  color: var(--text-40);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-top: 1px;
+}
+.mp-controls { display: flex; gap: 14px; align-items: center; flex-shrink: 0; }
+.mp-controls svg { width: 22px; height: 22px; opacity: 0.7; }
+.mp-progress {
+  position: absolute;
+  bottom: 0;
+  left: 16px;
+  right: 16px;
+  height: 2px;
+  background: var(--text-08);
+  border-radius: 1px;
+}
+.mp-progress-fill { width: 65%; height: 100%; background: var(--text-60); border-radius: 1px; }
+
+/* ===== BOTTOM NAV ===== */
+.bottom-nav {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 8px 16px 36px;
+  background: linear-gradient(to top, var(--bg) 60%, transparent);
+  z-index: 50;
+}
+.bnav {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  opacity: 0.35;
+}
+.bnav.on { opacity: 1; }
+.bnav svg { width: 22px; height: 22px; }
+.bnav span { font-size: 10px; font-weight: 500; letter-spacing: 0.2px; }
+
+/* ===== SECTION HEADERS ===== */
+.sh {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 28px 24px 14px;
+}
+.sh-title {
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: -0.4px;
+}
+.sh-link {
+  font-size: 12px;
+  color: var(--text-30);
+  letter-spacing: 0.3px;
+  font-weight: 500;
+}
+
+/* ===== PAGE TITLE ===== */
+.page-title {
+  padding: 8px 24px 4px;
+}
+.pt-main {
+  font-size: 30px;
+  font-weight: 800;
+  letter-spacing: -0.8px;
+  line-height: 1.15;
+}
+.pt-sub {
+  font-size: 14px;
+  color: var(--text-40);
+  margin-top: 4px;
+  line-height: 1.4;
+}
+
+/* ===== WAVE HERO ===== */
+.wave-hero {
+  margin: 8px 24px 0;
+  padding: 28px 24px;
+  background: var(--glass);
+  border-radius: var(--r-lg);
+  border: 1px solid var(--glass-border);
+  position: relative;
+  overflow: hidden;
+}
+.wave-hero::before {
+  content: '';
+  position: absolute;
+  top: -30%;
+  right: -20%;
+  width: 200px;
+  height: 200px;
+  background: radial-gradient(circle, rgba(255,255,255,0.03) 0%, transparent 70%);
+  pointer-events: none;
+}
+.wave-play {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  border: 1.5px solid var(--text-30);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+.wave-play svg { width: 18px; height: 18px; margin-left: 2px; opacity: 0.8; }
+.wave-title {
+  font-size: 24px;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  margin-bottom: 6px;
+}
+.wave-desc {
+  font-size: 13px;
+  color: var(--text-40);
+  line-height: 1.5;
+}
+/* Waveform decoration */
+.wave-deco {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 50px;
+  display: flex;
+  align-items: flex-end;
+  gap: 3px;
+  padding: 0 24px 12px;
+  opacity: 0.06;
+}
+.wave-deco-bar {
+  flex: 1;
+  background: var(--text);
+  border-radius: 2px 2px 0 0;
+}
+
+/* ===== QUICK PICK LABEL ===== */
+.qp-label {
+  padding: 0 24px;
+  font-size: 13px;
+  color: var(--text-40);
+  line-height: 1.4;
+  margin-top: -4px;
+}
+
+/* ===== TRACK ITEM ===== */
+.track {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 7px 24px;
+}
+.track-art {
+  width: 50px;
+  height: 50px;
+  border-radius: var(--r-sm);
+  overflow: hidden;
+  flex-shrink: 0;
+  position: relative;
+}
+.ta-1 { background: linear-gradient(135deg, #1e1818, #281e24); }
+.ta-2 { background: linear-gradient(135deg, #181e18, #1e2428); }
+.ta-3 { background: linear-gradient(135deg, #18181e, #241e28); }
+.ta-4 { background: linear-gradient(135deg, #1e1e18, #28241e); }
+.ta-5 { background: linear-gradient(135deg, #181e1e, #1e2824); }
+.ta-6 { background: linear-gradient(135deg, #201a1c, #1c1a20); }
+.track-info { flex: 1; min-width: 0; }
+.track-name {
+  font-size: 15px;
+  font-weight: 500;
+  letter-spacing: -0.2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.track-artist {
+  font-size: 12px;
+  color: var(--text-30);
+  margin-top: 2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.track-dur {
+  font-size: 12px;
+  color: var(--text-20);
+  font-variant-numeric: tabular-nums;
+  flex-shrink: 0;
+  letter-spacing: 0.3px;
+}
+.track-more {
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  opacity: 0.2;
+}
+.track-more svg { width: 16px; height: 16px; }
+
+/* Active / playing track */
+.track.playing .track-name { color: var(--text); }
+.track.playing .track-art::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ===== ARTIST CARD (horizontal scroll) ===== */
+.artists-row {
+  display: flex;
+  gap: 16px;
+  padding: 6px 24px 8px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.artists-row::-webkit-scrollbar { display: none; }
+.artist-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+  width: 80px;
+}
+.artist-av {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 1.5px solid var(--text-08);
+  position: relative;
+}
+.artist-av-inner {
+  width: 100%;
+  height: 100%;
+}
+.av-1 { background: linear-gradient(135deg, #2a2020, #201a28); }
+.av-2 { background: linear-gradient(135deg, #202a20, #1a2028); }
+.av-3 { background: linear-gradient(135deg, #20202a, #281a20); }
+.av-4 { background: linear-gradient(135deg, #2a2a20, #201a1a); }
+.av-5 { background: linear-gradient(135deg, #202a2a, #1a201a); }
+.artist-follow {
+  position: absolute;
+  bottom: -2px;
+  right: -2px;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--text);
+  border: 2px solid var(--bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.artist-follow svg { width: 10px; height: 10px; color: var(--bg); }
+.artist-name {
+  font-size: 11px;
+  font-weight: 500;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 100%;
+  color: var(--text-60);
+}
+
+/* ===== CHIPS / PILLS ===== */
+.pills {
+  display: flex;
+  gap: 8px;
+  padding: 8px 24px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.pills::-webkit-scrollbar { display: none; }
+.pill {
+  padding: 8px 18px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 500;
+  white-space: nowrap;
+  flex-shrink: 0;
+  background: var(--text-06);
+  color: var(--text-40);
+  border: 1px solid var(--text-06);
+  letter-spacing: 0.1px;
+}
+.pill.on {
+  background: var(--text);
+  color: var(--bg);
+  border-color: var(--text);
+}
+
+/* ===== ACTION BUTTON ROW ===== */
+.action-row {
+  display: flex;
+  gap: 10px;
+  padding: 0 24px;
+}
+.abtn {
+  flex: 1;
+  padding: 14px 16px;
+  border-radius: var(--r-md);
+  background: var(--glass);
+  border: 1px solid var(--glass-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-80);
+}
+.abtn svg { width: 16px; height: 16px; opacity: 0.6; }
+.abtn.primary {
+  background: var(--text);
+  color: var(--bg);
+  border-color: var(--text);
+}
+.abtn.primary svg { opacity: 1; color: var(--bg); }
+
+/* ===== GLASS CARD ===== */
+.gcard {
+  margin: 0 24px;
+  padding: 24px;
+  background: var(--glass);
+  border-radius: var(--r-lg);
+  border: 1px solid var(--glass-border);
+}
+
+/* ===== STATS ROW ===== */
+.stats {
+  display: flex;
+  margin: 16px 24px 0;
+  border-radius: var(--r-md);
+  overflow: hidden;
+  border: 1px solid var(--glass-border);
+}
+.stat {
+  flex: 1;
+  padding: 18px 12px;
+  text-align: center;
+  background: var(--glass);
+  border-right: 1px solid var(--glass-border);
+}
+.stat:last-child { border-right: none; }
+.stat-val {
+  font-size: 26px;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+}
+.stat-lbl {
+  font-size: 10px;
+  color: var(--text-30);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-weight: 500;
+  margin-top: 4px;
+}
+
+/* ===== FRIENDS CARD ===== */
+.friends-card {
+  margin: 16px 24px 0;
+  padding: 18px 20px;
+  background: var(--glass);
+  border-radius: var(--r-lg);
+  border: 1px solid var(--glass-border);
+}
+.fc-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+.fc-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 15px;
+  font-weight: 600;
+}
+.fc-title svg { width: 18px; height: 18px; opacity: 0.45; }
+.fc-actions { display: flex; gap: 14px; }
+.fc-actions svg { width: 18px; height: 18px; opacity: 0.3; }
+.fc-empty {
+  text-align: center;
+  padding: 14px 0;
+  font-size: 13px;
+  color: var(--text-20);
+}
+.fc-btn {
+  display: block;
+  width: 100%;
+  padding: 12px;
+  text-align: center;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-80);
+  background: var(--text-06);
+  border-radius: var(--r-sm);
+  margin-top: 10px;
+  border: 1px solid var(--text-06);
+}
+
+/* ===== ROOM EMPTY ===== */
+.room-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 32px 0;
+  gap: 10px;
+}
+.room-wave {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  height: 40px;
+  opacity: 0.12;
+}
+.room-wave-bar {
+  width: 3px;
+  background: var(--text);
+  border-radius: 2px;
+}
+.room-empty-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text-60);
+}
+.room-empty-desc {
+  font-size: 13px;
+  color: var(--text-20);
+  text-align: center;
+  line-height: 1.5;
+}
+
+/* ===== LIKED BANNER ===== */
+.liked-banner {
+  margin: 12px 24px;
+  padding: 18px 20px;
+  background: var(--glass);
+  border-radius: var(--r-lg);
+  border: 1px solid var(--glass-border);
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.lb-icon {
+  width: 54px;
+  height: 54px;
+  border-radius: var(--r-md);
+  background: var(--text-06);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.lb-icon svg { width: 22px; height: 22px; opacity: 0.8; }
+.lb-info { flex: 1; }
+.lb-title { font-size: 16px; font-weight: 700; letter-spacing: -0.2px; }
+.lb-meta { font-size: 12px; color: var(--text-30); margin-top: 3px; }
+.lb-play {
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  background: var(--text);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  box-shadow: 0 4px 16px rgba(255,255,255,0.1);
+}
+.lb-play svg { width: 18px; height: 18px; color: var(--bg); margin-left: 2px; }
+
+/* ===== PLAYLIST GRID ===== */
+.pl-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  padding: 0 24px;
+}
+.pl-card {
+  background: var(--glass);
+  border-radius: var(--r-md);
+  overflow: hidden;
+  border: 1px solid var(--glass-border);
+}
+.pl-card-art {
+  width: 100%;
+  aspect-ratio: 1;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  gap: 1px;
+  background: var(--bg);
+}
+.pl-card-art > div { background: var(--text-06); }
+.pl-card-body { padding: 12px 14px; }
+.pl-card-name {
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: -0.1px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.pl-card-meta {
+  font-size: 11px;
+  color: var(--text-20);
+  margin-top: 3px;
+}
+
+/* ===== SEARCH BAR ===== */
+.search-bar {
+  margin: 8px 24px 8px;
+  padding: 14px 18px;
+  background: var(--glass);
+  border-radius: var(--r-md);
+  border: 1px solid var(--glass-border);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.search-bar svg { width: 18px; height: 18px; opacity: 0.35; flex-shrink: 0; }
+.search-bar span {
+  font-size: 15px;
+  color: var(--text-20);
+  flex: 1;
+}
+
+/* ===== SEARCH CATEGORY LABEL ===== */
+.cat-label {
+  padding: 20px 24px 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.cat-label-text {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: var(--text-20);
+  font-weight: 600;
+}
+.cat-label svg { width: 16px; height: 16px; opacity: 0.2; }
+
+/* Divider */
+.divider {
+  height: 1px;
+  background: var(--text-06);
+  margin: 10px 24px;
+}
+
+/* ===== PROFILE CARD ===== */
+.profile-card {
+  margin: 12px 24px;
+  padding: 20px;
+  background: var(--glass);
+  border-radius: var(--r-lg);
+  border: 1px solid var(--glass-border);
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.pf-avatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: var(--text-06);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.pf-avatar svg { width: 24px; height: 24px; opacity: 0.35; }
+.pf-info { flex: 1; }
+.pf-name { font-size: 17px; font-weight: 700; letter-spacing: -0.3px; }
+.pf-handle { font-size: 13px; color: var(--text-30); margin-top: 1px; }
+.pf-arrow { opacity: 0.15; }
+.pf-arrow svg { width: 18px; height: 18px; }
+
+/* ===== PREMIUM CARD ===== */
+.premium-card {
+  margin: 0 24px 20px;
+  padding: 18px 20px;
+  background: var(--glass);
+  border-radius: var(--r-lg);
+  border: 1px solid var(--glass-border);
+}
+.pm-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 12px;
+  background: var(--text-06);
+  border-radius: var(--r-xs);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  margin-bottom: 8px;
+}
+.pm-badge svg { width: 12px; height: 12px; opacity: 0.5; }
+.pm-status {
+  font-size: 13px;
+  color: var(--text-20);
+}
+.pm-inactive {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11px;
+  color: rgba(255,80,80,0.6);
+  font-weight: 500;
+  float: right;
+  margin-top: -18px;
+}
+
+/* ===== SETTINGS GROUP ===== */
+.sg { margin: 0 24px 24px; }
+.sg-title {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: var(--text-20);
+  font-weight: 600;
+  padding: 0 0 10px;
+}
+.sg-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 15px 18px;
+  background: var(--glass);
+  border: 1px solid var(--glass-border);
+  margin-bottom: -1px;
+}
+.sg-item:first-of-type { border-radius: var(--r-md) var(--r-md) 0 0; }
+.sg-item:last-of-type { border-radius: 0 0 var(--r-md) var(--r-md); }
+.sg-item:only-of-type { border-radius: var(--r-md); }
+.sg-item svg { width: 20px; height: 20px; opacity: 0.35; flex-shrink: 0; }
+.sg-item-text { flex: 1; font-size: 15px; font-weight: 400; }
+.sg-item-arrow { font-size: 14px; opacity: 0.15; }
+
+/* ===== LISTENING EMPTY ===== */
+.listen-empty {
+  text-align: center;
+  padding: 30px 20px;
+  color: var(--text-20);
+  font-size: 13px;
+}
+.listen-empty svg { width: 36px; height: 36px; opacity: 0.08; margin-bottom: 10px; display: block; margin-left: auto; margin-right: auto; }
+
+/* ===== CHART ITEM ===== */
+.chart-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 24px;
+}
+.chart-num {
+  width: 24px;
+  height: 24px;
+  border-radius: 6px;
+  background: var(--text-06);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--text-40);
+  flex-shrink: 0;
+}
+.chart-art {
+  width: 46px;
+  height: 46px;
+  border-radius: var(--r-xs);
+  flex-shrink: 0;
+  overflow: hidden;
+}
+.chart-info { flex: 1; min-width: 0; }
+.chart-name {
+  font-size: 14px;
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  letter-spacing: -0.1px;
+}
+.chart-artist {
+  font-size: 12px;
+  color: var(--text-20);
+  margin-top: 1px;
+}
+.chart-trend {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11px;
+  color: var(--text-20);
+  flex-shrink: 0;
+}
+.chart-trend svg { width: 12px; height: 12px; opacity: 0.4; }
+
+/* ===== VIEW MY PROFILE CARD ===== */
+.my-profile-btn {
+  margin: 0 24px 20px;
+  padding: 16px 20px;
+  background: var(--text-04);
+  border-radius: var(--r-md);
+  border: 1px solid var(--text-06);
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.my-profile-btn svg { width: 20px; height: 20px; opacity: 0.3; }
+.mpb-info { flex: 1; }
+.mpb-title { font-size: 14px; font-weight: 500; }
+.mpb-desc { font-size: 12px; color: var(--text-20); margin-top: 2px; }
+.mpb-arrow { opacity: 0.15; font-size: 16px; }
+
+/* ===== VERSION ===== */
+.version {
+  text-align: center;
+  padding: 16px;
+  font-size: 11px;
+  color: var(--text-12);
+  letter-spacing: 0.5px;
+}
+</style>
+</head>
+<body>
+
+<div class="showcase">
+
+<!-- ============================================================ -->
+<!--                    SCREEN 1: HOME                            -->
+<!-- ============================================================ -->
+<div class="screen-wrap">
+  <span class="screen-label">Главная</span>
+  <div class="phone">
+    <div class="island"></div>
+    <div class="phone-scroll">
+
+      <div class="statusbar">
+        <span>9:41</span>
+        <div class="statusbar-r">
+          <svg viewBox="0 0 18 18" fill="currentColor"><path d="M1 7h2v6H1zm4-3h2v9H5zm4-2h2v11H9zm4 4h2v7h-2z"/></svg>
+          <svg viewBox="0 0 18 18" fill="none"><rect x="1" y="5" width="12" height="8" rx="1.5" stroke="currentColor" stroke-width="1.3"/><rect x="13.5" y="7.5" width="2.5" height="3" rx="0.5" fill="currentColor"/><rect x="2.5" y="6.5" width="7" height="5" rx="1" fill="currentColor" opacity="0.7"/></svg>
+        </div>
+      </div>
+
+      <!-- App Header -->
+      <div class="app-header">
+        <div class="app-logo">
+          <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10.5" stroke="white" stroke-width="1.5"/><circle cx="12" cy="12" r="3" fill="white"/></svg>
+          <span>мимоза</span>
+        </div>
+        <div class="app-header-actions">
+          <div class="header-btn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg>
+          </div>
+        </div>
+      </div>
+
+      <!-- Wave Hero -->
+      <div class="wave-hero">
+        <div class="wave-play">
+          <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="9,5 19,12 9,19"/></svg>
+        </div>
+        <div class="wave-title">Моя волна</div>
+        <div class="wave-desc">Персональные рекомендации создают<br>ваш музыкальный мир</div>
+        <div class="wave-deco">
+          <div class="wave-deco-bar" style="height:12px"></div>
+          <div class="wave-deco-bar" style="height:24px"></div>
+          <div class="wave-deco-bar" style="height:18px"></div>
+          <div class="wave-deco-bar" style="height:36px"></div>
+          <div class="wave-deco-bar" style="height:28px"></div>
+          <div class="wave-deco-bar" style="height:14px"></div>
+          <div class="wave-deco-bar" style="height:32px"></div>
+          <div class="wave-deco-bar" style="height:20px"></div>
+          <div class="wave-deco-bar" style="height:40px"></div>
+          <div class="wave-deco-bar" style="height:16px"></div>
+          <div class="wave-deco-bar" style="height:26px"></div>
+          <div class="wave-deco-bar" style="height:10px"></div>
+          <div class="wave-deco-bar" style="height:30px"></div>
+          <div class="wave-deco-bar" style="height:22px"></div>
+          <div class="wave-deco-bar" style="height:38px"></div>
+          <div class="wave-deco-bar" style="height:14px"></div>
+          <div class="wave-deco-bar" style="height:26px"></div>
+          <div class="wave-deco-bar" style="height:18px"></div>
+          <div class="wave-deco-bar" style="height:34px"></div>
+          <div class="wave-deco-bar" style="height:12px"></div>
+        </div>
+      </div>
+
+      <!-- Quick Pick -->
+      <div class="sh">
+        <span class="sh-title">Быстрый выбор</span>
+      </div>
+      <div class="qp-label">Выберите песню для очереди воспроизведения</div>
+
+      <div style="height:10px"></div>
+      <div class="track">
+        <div class="track-art ta-1"></div>
+        <div class="track-info"><div class="track-name">любят</div><div class="track-artist">whylovly</div></div>
+        <div class="track-dur">1:26</div>
+        <div class="track-more"><svg viewBox="0 0 20 20" fill="currentColor"><circle cx="10" cy="4" r="1.5"/><circle cx="10" cy="10" r="1.5"/><circle cx="10" cy="16" r="1.5"/></svg></div>
+      </div>
+      <div class="track">
+        <div class="track-art ta-2"></div>
+        <div class="track-info"><div class="track-name">Метроном</div><div class="track-artist">MultiManget</div></div>
+        <div class="track-dur">2:01</div>
+        <div class="track-more"><svg viewBox="0 0 20 20" fill="currentColor"><circle cx="10" cy="4" r="1.5"/><circle cx="10" cy="10" r="1.5"/><circle cx="10" cy="16" r="1.5"/></svg></div>
+      </div>
+      <div class="track">
+        <div class="track-art ta-3"></div>
+        <div class="track-info"><div class="track-name">не поняла</div><div class="track-artist">KRISTIEE, whyspurky</div></div>
+        <div class="track-dur">3:46</div>
+        <div class="track-more"><svg viewBox="0 0 20 20" fill="currentColor"><circle cx="10" cy="4" r="1.5"/><circle cx="10" cy="10" r="1.5"/><circle cx="10" cy="16" r="1.5"/></svg></div>
+      </div>
+
+      <!-- Followed Artists -->
+      <div class="sh">
+        <span class="sh-title">Артисты</span>
+        <span class="sh-link">Все</span>
+      </div>
+      <div class="artists-row">
+        <div class="artist-card">
+          <div class="artist-av"><div class="artist-av-inner av-1"></div></div>
+          <div class="artist-name">KRISTIEE</div>
+        </div>
+        <div class="artist-card">
+          <div class="artist-av"><div class="artist-av-inner av-2"></div><div class="artist-follow"><svg viewBox="0 0 12 12" fill="currentColor"><path d="M6 2v8M2 6h8" stroke-width="0"/></svg></div></div>
+          <div class="artist-name">Locked23</div>
+        </div>
+        <div class="artist-card">
+          <div class="artist-av"><div class="artist-av-inner av-3"></div></div>
+          <div class="artist-name">Kai Angel</div>
+        </div>
+        <div class="artist-card">
+          <div class="artist-av"><div class="artist-av-inner av-4"></div><div class="artist-follow"><svg viewBox="0 0 12 12" fill="currentColor"><path d="M6 2v8M2 6h8" stroke-width="0"/></svg></div></div>
+          <div class="artist-name">gotlib</div>
+        </div>
+        <div class="artist-card">
+          <div class="artist-av"><div class="artist-av-inner av-5"></div></div>
+          <div class="artist-name">Кишлак</div>
+        </div>
+        <div class="artist-card">
+          <div class="artist-av"><div class="artist-av-inner av-1"></div></div>
+          <div class="artist-name">CUPSIZE</div>
+        </div>
+      </div>
+
+      <!-- Popular -->
+      <div class="sh">
+        <span class="sh-title">Популярные песни</span>
+        <span class="sh-link">Все</span>
+      </div>
+      <div class="track">
+        <div class="track-art ta-4"></div>
+        <div class="track-info"><div class="track-name">aromat</div><div class="track-artist">gotlibgotlibgotlib</div></div>
+        <div class="track-dur">1:18</div>
+        <div class="track-more"><svg viewBox="0 0 20 20" fill="currentColor"><circle cx="10" cy="4" r="1.5"/><circle cx="10" cy="10" r="1.5"/><circle cx="10" cy="16" r="1.5"/></svg></div>
+      </div>
+      <div class="track">
+        <div class="track-art ta-5"></div>
+        <div class="track-info"><div class="track-name">JUMP!</div><div class="track-artist">Kai Angel & 9mice</div></div>
+        <div class="track-dur">2:07</div>
+        <div class="track-more"><svg viewBox="0 0 20 20" fill="currentColor"><circle cx="10" cy="4" r="1.5"/><circle cx="10" cy="10" r="1.5"/><circle cx="10" cy="16" r="1.5"/></svg></div>
+      </div>
+      <div class="track">
+        <div class="track-art ta-6"></div>
+        <div class="track-info"><div class="track-name">NOBODY (feat. Big Baby Tape)</div><div class="track-artist">Toxi$</div></div>
+        <div class="track-dur">2:57</div>
+        <div class="track-more"><svg viewBox="0 0 20 20" fill="currentColor"><circle cx="10" cy="4" r="1.5"/><circle cx="10" cy="10" r="1.5"/><circle cx="10" cy="16" r="1.5"/></svg></div>
+      </div>
+      <div class="track">
+        <div class="track-art ta-1"></div>
+        <div class="track-info"><div class="track-name">CULTURE</div><div class="track-artist">Lil Readerr</div></div>
+        <div class="track-dur">1:46</div>
+        <div class="track-more"><svg viewBox="0 0 20 20" fill="currentColor"><circle cx="10" cy="4" r="1.5"/><circle cx="10" cy="10" r="1.5"/><circle cx="10" cy="16" r="1.5"/></svg></div>
+      </div>
+      <div class="track">
+        <div class="track-art ta-3"></div>
+        <div class="track-info"><div class="track-name">Разлука (все площадки)</div><div class="track-artist">PLUSIX</div></div>
+        <div class="track-dur">2:06</div>
+        <div class="track-more"><svg viewBox="0 0 20 20" fill="currentColor"><circle cx="10" cy="4" r="1.5"/><circle cx="10" cy="10" r="1.5"/><circle cx="10" cy="16" r="1.5"/></svg></div>
+      </div>
+
+    </div>
+
+    <!-- Mini Player -->
+    <div class="mini-player">
+      <div class="mp-art"><div class="mp-art-inner"></div></div>
+      <div class="mp-info"><div class="mp-title">надежды (площадки)</div><div class="mp-artist">kurokov</div></div>
+      <div class="mp-controls">
+        <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="8,5 19,12 8,19"/></svg>
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M16 6h2v12h-2zm-2.5 6L5 6v12z"/></svg>
+      </div>
+      <div class="mp-progress"><div class="mp-progress-fill"></div></div>
+    </div>
+
+    <div class="bottom-nav">
+      <div class="bnav on"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-4 0v-4a1 1 0 011-1h2a1 1 0 011 1v4m-4 0h4"/></svg><span>Главная</span></div>
+      <div class="bnav"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg><span>Поиск</span></div>
+      <div class="bnav"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg><span>Комьюнити</span></div>
+      <div class="bnav"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M19 21l-7-5-7 5V5a2 2 0 012-2h10a2 2 0 012 2z"/></svg><span>Библиотека</span></div>
+    </div>
+    <div class="home-bar"></div>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!--                    SCREEN 2: SEARCH                          -->
+<!-- ============================================================ -->
+<div class="screen-wrap">
+  <span class="screen-label">Поиск</span>
+  <div class="phone">
+    <div class="island"></div>
+    <div class="phone-scroll">
+
+      <div class="statusbar">
+        <span>9:41</span>
+        <div class="statusbar-r">
+          <svg viewBox="0 0 18 18" fill="currentColor"><path d="M1 7h2v6H1zm4-3h2v9H5zm4-2h2v11H9zm4 4h2v7h-2z"/></svg>
+          <svg viewBox="0 0 18 18" fill="none"><rect x="1" y="5" width="12" height="8" rx="1.5" stroke="currentColor" stroke-width="1.3"/><rect x="13.5" y="7.5" width="2.5" height="3" rx="0.5" fill="currentColor"/><rect x="2.5" y="6.5" width="7" height="5" rx="1" fill="currentColor" opacity="0.7"/></svg>
+        </div>
+      </div>
+
+      <div class="app-header">
+        <div class="app-logo">
+          <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10.5" stroke="white" stroke-width="1.5"/><circle cx="12" cy="12" r="3" fill="white"/></svg>
+          <span>мимоза</span>
+        </div>
+      </div>
+
+      <!-- Search Bar -->
+      <div class="search-bar">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+        <span>Артисты, треки, альбомы...</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="opacity:0.15"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </div>
+
+      <!-- Recent -->
+      <div class="cat-label">
+        <span class="cat-label-text">Недавние</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"/></svg>
+      </div>
+
+      <div class="track">
+        <div class="track-art ta-1"></div>
+        <div class="track-info"><div class="track-name">topor</div><div class="track-artist">trepet</div></div>
+        <div class="track-dur">1:46</div>
+        <div class="track-more"><svg viewBox="0 0 20 20" fill="currentColor"><circle cx="10" cy="4" r="1.5"/><circle cx="10" cy="10" r="1.5"/><circle cx="10" cy="16" r="1.5"/></svg></div>
+      </div>
+      <div class="track">
+        <div class="track-art ta-2"></div>
+        <div class="track-info"><div class="track-name">ватсапп</div><div class="track-artist">Экзотик</div></div>
+        <div class="track-dur">1:46</div>
+        <div class="track-more"><svg viewBox="0 0 20 20" fill="currentColor"><circle cx="10" cy="4" r="1.5"/><circle cx="10" cy="10" r="1.5"/><circle cx="10" cy="16" r="1.5"/></svg></div>
+      </div>
+      <div class="track">
+        <div class="track-art ta-3"></div>
+        <div class="track-info"><div class="track-name">пена изо рта</div><div class="track-artist">trepet</div></div>
+        <div class="track-dur">1:45</div>
+        <div class="track-more"><svg viewBox="0 0 20 20" fill="currentColor"><circle cx="10" cy="4" r="1.5"/><circle cx="10" cy="10" r="1.5"/><circle cx="10" cy="16" r="1.5"/></svg></div>
+      </div>
+
+      <div class="divider" style="margin-top:16px"></div>
+
+      <!-- Popular -->
+      <div class="cat-label">
+        <span class="cat-label-text">Популярные</span>
+      </div>
+
+      <div class="track">
+        <div class="track-art ta-4"></div>
+        <div class="track-info"><div class="track-name">aromat</div><div class="track-artist">gotlibgotlibgotlib</div></div>
+        <div class="track-dur">1:18</div>
+        <div class="track-more"><svg viewBox="0 0 20 20" fill="currentColor"><circle cx="10" cy="4" r="1.5"/><circle cx="10" cy="10" r="1.5"/><circle cx="10" cy="16" r="1.5"/></svg></div>
+      </div>
+      <div class="track">
+        <div class="track-art ta-5"></div>
+        <div class="track-info"><div class="track-name">JUMP!</div><div class="track-artist">Kai Angel & 9mice</div></div>
+        <div class="track-dur">2:07</div>
+        <div class="track-more"><svg viewBox="0 0 20 20" fill="currentColor"><circle cx="10" cy="4" r="1.5"/><circle cx="10" cy="10" r="1.5"/><circle cx="10" cy="16" r="1.5"/></svg></div>
+      </div>
+      <div class="track">
+        <div class="track-art ta-6"></div>
+        <div class="track-info"><div class="track-name">NOBODY (feat. Big Baby Tape)</div><div class="track-artist">Toxi$</div></div>
+        <div class="track-dur">2:57</div>
+        <div class="track-more"><svg viewBox="0 0 20 20" fill="currentColor"><circle cx="10" cy="4" r="1.5"/><circle cx="10" cy="10" r="1.5"/><circle cx="10" cy="16" r="1.5"/></svg></div>
+      </div>
+      <div class="track">
+        <div class="track-art ta-1"></div>
+        <div class="track-info"><div class="track-name">Фонари</div><div class="track-artist">Luvfaygo!</div></div>
+        <div class="track-dur">1:36</div>
+        <div class="track-more"><svg viewBox="0 0 20 20" fill="currentColor"><circle cx="10" cy="4" r="1.5"/><circle cx="10" cy="10" r="1.5"/><circle cx="10" cy="16" r="1.5"/></svg></div>
+      </div>
+      <div class="track">
+        <div class="track-art ta-2"></div>
+        <div class="track-info"><div class="track-name">Разлука (все площадки)</div><div class="track-artist">PLUSIX</div></div>
+        <div class="track-dur">2:06</div>
+        <div class="track-more"><svg viewBox="0 0 20 20" fill="currentColor"><circle cx="10" cy="4" r="1.5"/><circle cx="10" cy="10" r="1.5"/><circle cx="10" cy="16" r="1.5"/></svg></div>
+      </div>
+
+    </div>
+
+    <div class="mini-player">
+      <div class="mp-art"><div class="mp-art-inner"></div></div>
+      <div class="mp-info"><div class="mp-title">надежды (площадки)</div><div class="mp-artist">kurokov</div></div>
+      <div class="mp-controls">
+        <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="8,5 19,12 8,19"/></svg>
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M16 6h2v12h-2zm-2.5 6L5 6v12z"/></svg>
+      </div>
+      <div class="mp-progress"><div class="mp-progress-fill"></div></div>
+    </div>
+    <div class="bottom-nav">
+      <div class="bnav"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-4 0v-4a1 1 0 011-1h2a1 1 0 011 1v4m-4 0h4"/></svg><span>Главная</span></div>
+      <div class="bnav on"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg><span>Поиск</span></div>
+      <div class="bnav"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg><span>Комьюнити</span></div>
+      <div class="bnav"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M19 21l-7-5-7 5V5a2 2 0 012-2h10a2 2 0 012 2z"/></svg><span>Библиотека</span></div>
+    </div>
+    <div class="home-bar"></div>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!--                    SCREEN 3: COMMUNITY                       -->
+<!-- ============================================================ -->
+<div class="screen-wrap">
+  <span class="screen-label">Сообщество</span>
+  <div class="phone">
+    <div class="island"></div>
+    <div class="phone-scroll">
+
+      <div class="statusbar">
+        <span>9:41</span>
+        <div class="statusbar-r">
+          <svg viewBox="0 0 18 18" fill="currentColor"><path d="M1 7h2v6H1zm4-3h2v9H5zm4-2h2v11H9zm4 4h2v7h-2z"/></svg>
+          <svg viewBox="0 0 18 18" fill="none"><rect x="1" y="5" width="12" height="8" rx="1.5" stroke="currentColor" stroke-width="1.3"/><rect x="13.5" y="7.5" width="2.5" height="3" rx="0.5" fill="currentColor"/><rect x="2.5" y="6.5" width="7" height="5" rx="1" fill="currentColor" opacity="0.7"/></svg>
+        </div>
+      </div>
+
+      <div class="page-title">
+        <div class="pt-main">Сообщество</div>
+        <div class="pt-sub">Слушайте музыку вместе с друзьями</div>
+      </div>
+
+      <!-- Actions -->
+      <div class="action-row" style="margin-top:20px">
+        <div class="abtn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/></svg>
+          Войти по ID
+        </div>
+        <div class="abtn primary">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          Создать
+        </div>
+      </div>
+
+      <!-- Active Rooms -->
+      <div class="sh"><span class="sh-title">Активные комнаты</span></div>
+
+      <div class="gcard">
+        <div class="room-empty">
+          <div class="room-wave">
+            <div class="room-wave-bar" style="height:10px"></div>
+            <div class="room-wave-bar" style="height:22px"></div>
+            <div class="room-wave-bar" style="height:16px"></div>
+            <div class="room-wave-bar" style="height:30px"></div>
+            <div class="room-wave-bar" style="height:24px"></div>
+            <div class="room-wave-bar" style="height:36px"></div>
+            <div class="room-wave-bar" style="height:28px"></div>
+            <div class="room-wave-bar" style="height:18px"></div>
+            <div class="room-wave-bar" style="height:32px"></div>
+            <div class="room-wave-bar" style="height:14px"></div>
+            <div class="room-wave-bar" style="height:26px"></div>
+            <div class="room-wave-bar" style="height:20px"></div>
+          </div>
+          <div class="room-empty-title">Эфир свободен</div>
+          <div class="room-empty-desc">Волны готовы передавать вашу музыку<br>Создайте комнату и начните трансляцию</div>
+        </div>
+      </div>
+
+      <!-- Stats -->
+      <div class="stats">
+        <div class="stat"><div class="stat-val">0</div><div class="stat-lbl">Комнат</div></div>
+        <div class="stat"><div class="stat-val">0</div><div class="stat-lbl">В сети</div></div>
+        <div class="stat"><div class="stat-val">3</div><div class="stat-lbl">Плейлистов</div></div>
+      </div>
+
+      <!-- Friends -->
+      <div class="friends-card">
+        <div class="fc-head">
+          <div class="fc-title">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+            Друзья онлайн
+          </div>
+          <div class="fc-actions">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M16 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="8.5" cy="7" r="4"/><line x1="20" y1="8" x2="20" y2="14"/><line x1="23" y1="11" x2="17" y2="11"/></svg>
+          </div>
+        </div>
+        <div class="fc-empty">Нет друзей онлайн</div>
+        <div class="fc-btn">Все друзья (1)</div>
+      </div>
+
+      <!-- Listening -->
+      <div class="sh"><span class="sh-title">Что слушают друзья</span></div>
+      <div class="listen-empty">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
+        Ни один друг сейчас<br>не слушает музыку
+      </div>
+
+    </div>
+
+    <div class="mini-player">
+      <div class="mp-art"><div class="mp-art-inner"></div></div>
+      <div class="mp-info"><div class="mp-title">надежды (площадки)</div><div class="mp-artist">kurokov</div></div>
+      <div class="mp-controls">
+        <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="8,5 19,12 8,19"/></svg>
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M16 6h2v12h-2zm-2.5 6L5 6v12z"/></svg>
+      </div>
+      <div class="mp-progress"><div class="mp-progress-fill"></div></div>
+    </div>
+    <div class="bottom-nav">
+      <div class="bnav"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-4 0v-4a1 1 0 011-1h2a1 1 0 011 1v4m-4 0h4"/></svg><span>Главная</span></div>
+      <div class="bnav"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg><span>Поиск</span></div>
+      <div class="bnav on"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg><span>Комьюнити</span></div>
+      <div class="bnav"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M19 21l-7-5-7 5V5a2 2 0 012-2h10a2 2 0 012 2z"/></svg><span>Библиотека</span></div>
+    </div>
+    <div class="home-bar"></div>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!--                    SCREEN 4: LIBRARY                         -->
+<!-- ============================================================ -->
+<div class="screen-wrap">
+  <span class="screen-label">Библиотека</span>
+  <div class="phone">
+    <div class="island"></div>
+    <div class="phone-scroll">
+
+      <div class="statusbar">
+        <span>9:41</span>
+        <div class="statusbar-r">
+          <svg viewBox="0 0 18 18" fill="currentColor"><path d="M1 7h2v6H1zm4-3h2v9H5zm4-2h2v11H9zm4 4h2v7h-2z"/></svg>
+          <svg viewBox="0 0 18 18" fill="none"><rect x="1" y="5" width="12" height="8" rx="1.5" stroke="currentColor" stroke-width="1.3"/><rect x="13.5" y="7.5" width="2.5" height="3" rx="0.5" fill="currentColor"/><rect x="2.5" y="6.5" width="7" height="5" rx="1" fill="currentColor" opacity="0.7"/></svg>
+        </div>
+      </div>
+
+      <div class="page-title"><div class="pt-main">Библиотека</div></div>
+
+      <!-- Tabs -->
+      <div class="pills">
+        <div class="pill on">Все</div>
+        <div class="pill">Плейлисты</div>
+        <div class="pill">Загрузки</div>
+      </div>
+
+      <!-- Liked -->
+      <div class="liked-banner">
+        <div class="lb-icon">
+          <svg viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
+        </div>
+        <div class="lb-info">
+          <div class="lb-title">Понравившиеся</div>
+          <div class="lb-meta">10 песен  ·  21 мин</div>
+        </div>
+        <div class="lb-play">
+          <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="9,5 19,12 9,19"/></svg>
+        </div>
+      </div>
+
+      <!-- Playlists -->
+      <div class="sh" style="padding-top:8px">
+        <span class="sh-title">Плейлисты</span>
+        <span class="sh-link">+ Создать</span>
+      </div>
+
+      <div class="pl-grid">
+        <div class="pl-card">
+          <div class="pl-card-art"><div class="ta-1"></div><div class="ta-3"></div><div class="ta-5"></div><div class="ta-2"></div></div>
+          <div class="pl-card-body"><div class="pl-card-name">я хз че написать</div><div class="pl-card-meta">30 треков</div></div>
+        </div>
+        <div class="pl-card">
+          <div class="pl-card-art"><div class="ta-4"></div><div class="ta-6"></div><div class="ta-1"></div><div class="ta-3"></div></div>
+          <div class="pl-card-body"><div class="pl-card-name">Мой плейлист</div><div class="pl-card-meta">10 треков</div></div>
+        </div>
+      </div>
+
+      <!-- Tracks -->
+      <div class="sh"><span class="sh-title">Недавние</span></div>
+
+      <div class="track">
+        <div class="track-art ta-1"></div>
+        <div class="track-info"><div class="track-name">Sony</div><div class="track-artist">Locked23</div></div>
+        <div class="track-dur">2:19</div>
+        <div class="track-more"><svg viewBox="0 0 20 20" fill="currentColor"><circle cx="10" cy="4" r="1.5"/><circle cx="10" cy="10" r="1.5"/><circle cx="10" cy="16" r="1.5"/></svg></div>
+      </div>
+      <div class="track">
+        <div class="track-art ta-2"></div>
+        <div class="track-info"><div class="track-name">мудаком</div><div class="track-artist">lightprey</div></div>
+        <div class="track-dur">1:49</div>
+        <div class="track-more"><svg viewBox="0 0 20 20" fill="currentColor"><circle cx="10" cy="4" r="1.5"/><circle cx="10" cy="10" r="1.5"/><circle cx="10" cy="16" r="1.5"/></svg></div>
+      </div>
+      <div class="track">
+        <div class="track-art ta-3"></div>
+        <div class="track-info"><div class="track-name">спали меня до тла</div><div class="track-artist">coldn1ght, казу</div></div>
+        <div class="track-dur">2:06</div>
+        <div class="track-more"><svg viewBox="0 0 20 20" fill="currentColor"><circle cx="10" cy="4" r="1.5"/><circle cx="10" cy="10" r="1.5"/><circle cx="10" cy="16" r="1.5"/></svg></div>
+      </div>
+      <div class="track">
+        <div class="track-art ta-4"></div>
+        <div class="track-info"><div class="track-name">Hennessy</div><div class="track-artist">3umph, dope17</div></div>
+        <div class="track-dur">2:19</div>
+        <div class="track-more"><svg viewBox="0 0 20 20" fill="currentColor"><circle cx="10" cy="4" r="1.5"/><circle cx="10" cy="10" r="1.5"/><circle cx="10" cy="16" r="1.5"/></svg></div>
+      </div>
+      <div class="track">
+        <div class="track-art ta-5"></div>
+        <div class="track-info"><div class="track-name">чёрный шёлк</div><div class="track-artist">3umph, dope17</div></div>
+        <div class="track-dur">1:53</div>
+        <div class="track-more"><svg viewBox="0 0 20 20" fill="currentColor"><circle cx="10" cy="4" r="1.5"/><circle cx="10" cy="10" r="1.5"/><circle cx="10" cy="16" r="1.5"/></svg></div>
+      </div>
+      <div class="track">
+        <div class="track-art ta-6"></div>
+        <div class="track-info"><div class="track-name">любовь</div><div class="track-artist">dope17</div></div>
+        <div class="track-dur">1:51</div>
+        <div class="track-more"><svg viewBox="0 0 20 20" fill="currentColor"><circle cx="10" cy="4" r="1.5"/><circle cx="10" cy="10" r="1.5"/><circle cx="10" cy="16" r="1.5"/></svg></div>
+      </div>
+      <div class="track">
+        <div class="track-art ta-1"></div>
+        <div class="track-info"><div class="track-name">гасну</div><div class="track-artist">ristling, филмайфейс</div></div>
+        <div class="track-dur">1:49</div>
+        <div class="track-more"><svg viewBox="0 0 20 20" fill="currentColor"><circle cx="10" cy="4" r="1.5"/><circle cx="10" cy="10" r="1.5"/><circle cx="10" cy="16" r="1.5"/></svg></div>
+      </div>
+
+      <!-- Bottom actions -->
+      <div class="action-row" style="margin-top:16px">
+        <div class="abtn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          Новый плейлист
+        </div>
+        <div class="abtn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Импорт
+        </div>
+      </div>
+
+    </div>
+
+    <div class="mini-player">
+      <div class="mp-art"><div class="mp-art-inner"></div></div>
+      <div class="mp-info"><div class="mp-title">надежды (площадки)</div><div class="mp-artist">kurokov</div></div>
+      <div class="mp-controls">
+        <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="8,5 19,12 8,19"/></svg>
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M16 6h2v12h-2zm-2.5 6L5 6v12z"/></svg>
+      </div>
+      <div class="mp-progress"><div class="mp-progress-fill"></div></div>
+    </div>
+    <div class="bottom-nav">
+      <div class="bnav"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-4 0v-4a1 1 0 011-1h2a1 1 0 011 1v4m-4 0h4"/></svg><span>Главная</span></div>
+      <div class="bnav"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg><span>Поиск</span></div>
+      <div class="bnav"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg><span>Комьюнити</span></div>
+      <div class="bnav on"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M19 21l-7-5-7 5V5a2 2 0 012-2h10a2 2 0 012 2z"/></svg><span>Библиотека</span></div>
+    </div>
+    <div class="home-bar"></div>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!--                    SCREEN 5: CHARTS                          -->
+<!-- ============================================================ -->
+<div class="screen-wrap">
+  <span class="screen-label">Чарты</span>
+  <div class="phone">
+    <div class="island"></div>
+    <div class="phone-scroll">
+
+      <div class="statusbar">
+        <span>9:41</span>
+        <div class="statusbar-r">
+          <svg viewBox="0 0 18 18" fill="currentColor"><path d="M1 7h2v6H1zm4-3h2v9H5zm4-2h2v11H9zm4 4h2v7h-2z"/></svg>
+          <svg viewBox="0 0 18 18" fill="none"><rect x="1" y="5" width="12" height="8" rx="1.5" stroke="currentColor" stroke-width="1.3"/><rect x="13.5" y="7.5" width="2.5" height="3" rx="0.5" fill="currentColor"/><rect x="2.5" y="6.5" width="7" height="5" rx="1" fill="currentColor" opacity="0.7"/></svg>
+        </div>
+      </div>
+
+      <div class="page-title"><div class="pt-main">Топ треков</div><div class="pt-sub">Самые популярные за неделю</div></div>
+
+      <div style="height:8px"></div>
+
+      <div class="chart-item">
+        <div class="chart-num">1</div>
+        <div class="chart-art ta-4"></div>
+        <div class="chart-info"><div class="chart-name">aromat</div><div class="chart-artist">gotlibgotlibgotlib</div></div>
+        <div class="chart-trend"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="1 8 4 4 7 6 11 2"/></svg>12</div>
+      </div>
+      <div class="chart-item">
+        <div class="chart-num">2</div>
+        <div class="chart-art ta-5"></div>
+        <div class="chart-info"><div class="chart-name">JUMP!</div><div class="chart-artist">Kai Angel & 9mice</div></div>
+        <div class="chart-trend"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="1 8 4 4 7 6 11 2"/></svg>10</div>
+      </div>
+      <div class="chart-item">
+        <div class="chart-num">3</div>
+        <div class="chart-art ta-6"></div>
+        <div class="chart-info"><div class="chart-name">NOBODY (feat. Big Baby Tape)</div><div class="chart-artist">Toxi$</div></div>
+        <div class="chart-trend"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="1 8 4 4 7 6 11 2"/></svg>9</div>
+      </div>
+      <div class="chart-item">
+        <div class="chart-num">4</div>
+        <div class="chart-art ta-1"></div>
+        <div class="chart-info"><div class="chart-name">CULTURE</div><div class="chart-artist">Lil Readerr</div></div>
+        <div class="chart-trend"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="1 8 4 4 7 6 11 2"/></svg>8</div>
+      </div>
+      <div class="chart-item">
+        <div class="chart-num">5</div>
+        <div class="chart-art ta-2"></div>
+        <div class="chart-info"><div class="chart-name">Разлука (все площадки)</div><div class="chart-artist">PLUSIX</div></div>
+        <div class="chart-trend"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="1 8 4 4 7 6 11 2"/></svg>7</div>
+      </div>
+
+      <div class="divider" style="margin-top:20px"></div>
+
+      <!-- Playlists section -->
+      <div class="sh"><span class="sh-title">Плейлистов</span><span class="sh-link">Опубликовать</span></div>
+
+      <div class="pills">
+        <div class="pill on">Все</div>
+        <div class="pill">Популярные</div>
+        <div class="pill">Новинки</div>
+        <div class="pill">Мои</div>
+      </div>
+
+      <div style="height:8px"></div>
+      <div class="pl-grid">
+        <div class="pl-card">
+          <div class="pl-card-art"><div class="ta-1"></div><div class="ta-3"></div><div class="ta-5"></div><div class="ta-2"></div></div>
+          <div class="pl-card-body"><div class="pl-card-name">Мой плейлист #1</div><div class="pl-card-meta">@leclerc · 8 треков</div></div>
+        </div>
+        <div class="pl-card">
+          <div class="pl-card-art"><div class="ta-4"></div><div class="ta-6"></div><div class="ta-1"></div><div class="ta-3"></div></div>
+          <div class="pl-card-body"><div class="pl-card-name">Мой плейлист #2</div><div class="pl-card-meta">@leclerc · 10 треков</div></div>
+        </div>
+        <div class="pl-card">
+          <div class="pl-card-art"><div class="ta-2"></div><div class="ta-5"></div><div class="ta-4"></div><div class="ta-6"></div></div>
+          <div class="pl-card-body"><div class="pl-card-name">я хз че написать</div><div class="pl-card-meta">Mimose · 30 треков</div></div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="mini-player">
+      <div class="mp-art"><div class="mp-art-inner"></div></div>
+      <div class="mp-info"><div class="mp-title">надежды (площадки)</div><div class="mp-artist">kurokov</div></div>
+      <div class="mp-controls">
+        <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="8,5 19,12 8,19"/></svg>
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M16 6h2v12h-2zm-2.5 6L5 6v12z"/></svg>
+      </div>
+      <div class="mp-progress"><div class="mp-progress-fill"></div></div>
+    </div>
+    <div class="bottom-nav">
+      <div class="bnav"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-4 0v-4a1 1 0 011-1h2a1 1 0 011 1v4m-4 0h4"/></svg><span>Главная</span></div>
+      <div class="bnav"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg><span>Поиск</span></div>
+      <div class="bnav on"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg><span>Комьюнити</span></div>
+      <div class="bnav"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M19 21l-7-5-7 5V5a2 2 0 012-2h10a2 2 0 012 2z"/></svg><span>Библиотека</span></div>
+    </div>
+    <div class="home-bar"></div>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!--                    SCREEN 6: SETTINGS                        -->
+<!-- ============================================================ -->
+<div class="screen-wrap">
+  <span class="screen-label">Настройки</span>
+  <div class="phone">
+    <div class="island"></div>
+    <div class="phone-scroll">
+
+      <div class="statusbar">
+        <span>9:41</span>
+        <div class="statusbar-r">
+          <svg viewBox="0 0 18 18" fill="currentColor"><path d="M1 7h2v6H1zm4-3h2v9H5zm4-2h2v11H9zm4 4h2v7h-2z"/></svg>
+          <svg viewBox="0 0 18 18" fill="none"><rect x="1" y="5" width="12" height="8" rx="1.5" stroke="currentColor" stroke-width="1.3"/><rect x="13.5" y="7.5" width="2.5" height="3" rx="0.5" fill="currentColor"/><rect x="2.5" y="6.5" width="7" height="5" rx="1" fill="currentColor" opacity="0.7"/></svg>
+        </div>
+      </div>
+
+      <div class="page-title"><div class="pt-main">Настройки</div></div>
+
+      <!-- Profile -->
+      <div class="profile-card">
+        <div class="pf-avatar">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        </div>
+        <div class="pf-info"><div class="pf-name">Mimose</div><div class="pf-handle">@mimose</div></div>
+        <div class="pf-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg></div>
+      </div>
+
+      <!-- My Profile -->
+      <div class="my-profile-btn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="10" r="3"/><path d="M6.168 18.849A4 4 0 0110 16h4a4 4 0 013.834 2.855"/></svg>
+        <div class="mpb-info"><div class="mpb-title">Мой профиль</div><div class="mpb-desc">Посмотреть как его видят другие</div></div>
+        <span class="mpb-arrow">></span>
+      </div>
+
+      <!-- Premium -->
+      <div class="premium-card">
+        <div class="pm-badge">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          mimose+
+        </div>
+        <div class="pm-inactive">Неактивна</div>
+        <div class="pm-status">Премиум-подписка</div>
+      </div>
+
+      <!-- Settings groups -->
+      <div class="sg">
+        <div class="sg-title">Основное</div>
+        <div class="sg-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>
+          <span class="sg-item-text">Язык</span>
+          <span class="sg-item-arrow">></span>
+        </div>
+        <div class="sg-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          <span class="sg-item-text">Приватность</span>
+          <span class="sg-item-arrow">></span>
+        </div>
+        <div class="sg-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
+          <span class="sg-item-text">Воспроизведение</span>
+          <span class="sg-item-arrow">></span>
+        </div>
+        <div class="sg-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="5" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="12" cy="19" r="1"/></svg>
+          <span class="sg-item-text">Прочее</span>
+          <span class="sg-item-arrow">></span>
+        </div>
+      </div>
+
+      <div class="sg">
+        <div class="sg-title">Внешний вид</div>
+        <div class="sg-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+          <span class="sg-item-text">Цветовая схема</span>
+          <span class="sg-item-arrow">></span>
+        </div>
+        <div class="sg-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="5" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="12" cy="19" r="1"/></svg>
+          <span class="sg-item-text">Прочее</span>
+          <span class="sg-item-arrow">></span>
+        </div>
+      </div>
+
+      <div class="sg">
+        <div class="sg-title">Интеграции</div>
+        <div class="sg-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>
+          <span class="sg-item-text">Интеграции</span>
+          <span class="sg-item-arrow">></span>
+        </div>
+        <div class="sg-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z"/></svg>
+          <span class="sg-item-text">Хранилище</span>
+          <span class="sg-item-arrow">></span>
+        </div>
+        <div class="sg-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M6 8h.01M10 8h.01M6 12h12M6 16h8"/></svg>
+          <span class="sg-item-text">Горячие клавиши</span>
+          <span class="sg-item-arrow">></span>
+        </div>
+      </div>
+
+      <div class="version">мимоза v2.0.0</div>
+
+    </div>
+
+    <div class="bottom-nav">
+      <div class="bnav"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-4 0v-4a1 1 0 011-1h2a1 1 0 011 1v4m-4 0h4"/></svg><span>Главная</span></div>
+      <div class="bnav"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg><span>Поиск</span></div>
+      <div class="bnav"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg><span>Комьюнити</span></div>
+      <div class="bnav on"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 01-2.83 2.83l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg><span>Настройки</span></div>
+    </div>
+    <div class="home-bar"></div>
+  </div>
+</div>
+
+</div>
+</body>
+</html>
