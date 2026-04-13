@@ -29,9 +29,13 @@ function getDirectStreamUrl(track) {
 function resolveAudioUrl(track) {
   const source = track.source || 'yandex';
   const directStreamUrl = getDirectStreamUrl(track);
+  const isWeb =
+    typeof window !== 'undefined' &&
+    typeof window.location !== 'undefined';
 
   if (directStreamUrl) {
-    if (source === 'yandex') return directStreamUrl;
+    // In web browsers, always proxy audio to avoid CORS issues
+    if (source === 'yandex' && !isWeb) return directStreamUrl;
     return `${PROXY_BASE}/audio/${encodeURIComponent(directStreamUrl)}`;
   }
 

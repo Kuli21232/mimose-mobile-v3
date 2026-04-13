@@ -13,7 +13,7 @@ export default function ArtistCard({ artist, onPress }) {
         {artist.coverUrl ? (
           <Image source={{ uri: artist.coverUrl }} style={styles.avatar} />
         ) : (
-          <LinearGradient colors={artist.gradients || ['#2a2020', '#201a28']} style={styles.avatar} />
+          <LinearGradient colors={artist.gradients || ['#1a1010', '#100a18']} style={styles.avatar} />
         )}
       </View>
       <Text style={styles.name} numberOfLines={1}>{artist.name}</Text>

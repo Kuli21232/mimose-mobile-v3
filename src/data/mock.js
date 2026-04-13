@@ -12,7 +12,7 @@ export const tracks = [
 ];
 
 export const artists = [
-  { id: '1', name: 'Кино', gradients: ['#2a2020', '#201a28'] },
+  { id: '1', name: 'Кино', gradients: ['#1a1010', '#100a18'] },
   { id: '2', name: 'Земфира', gradients: ['#202a20', '#1a2028'] },
   { id: '3', name: 'Сплин', gradients: ['#20202a', '#281a20'] },
   { id: '4', name: 'Мумий Тролль', gradients: ['#2a2a20', '#201a1a'] },
@@ -45,7 +45,7 @@ export const rooms = [
     name: 'Рок 90-х',
     listeners: 14,
     currentTrack: 'Кино — Перемен',
-    hostGradient: ['#2a2020', '#201a28'],
+    hostGradient: ['#1a1010', '#100a18'],
   },
   {
     id: '2',

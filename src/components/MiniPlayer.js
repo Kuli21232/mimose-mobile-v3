@@ -15,7 +15,7 @@ export default function MiniPlayer({ onPress }) {
   if (!currentTrack) return null;
 
   const progress = duration > 0 ? position / duration : 0;
-  const artGradient = currentTrack.artGradient || ['#1e1818', '#281e24'];
+  const artGradient = currentTrack.artGradient || ['#0a0808', '#100a10'];
 
   return (
     <TouchableOpacity style={styles.container} onPress={onPress} activeOpacity={0.9}>

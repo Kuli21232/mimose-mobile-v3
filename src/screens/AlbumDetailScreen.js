@@ -29,7 +29,7 @@ export default function AlbumDetailScreen({ navigation, route }) {
     name: copy.album,
     artist: '—',
     year: '',
-    artGradient: ['#1a1518', '#050505'],
+    artGradient: ['#0a0808', '#000000'],
   };
   const [album, setAlbum] = useState(mapAlbum(routeAlbum, routeAlbum.artist));
   const [tracks, setTracks] = useState([]);
@@ -69,7 +69,7 @@ export default function AlbumDetailScreen({ navigation, route }) {
     }
   };
 
-  const artGradient = album.artGradient || ['#1a1518', '#050505'];
+  const artGradient = album.artGradient || ['#0a0808', '#000000'];
   const trackCount = Math.max(tracks.length, album.trackCount || 0);
 
   return (

@@ -1,5 +1,6 @@
 import client from './client';
 import useSettingsStore from '../store/settingsStore';
+import CryptoJS from 'crypto-js';
 
 // ─── Server-side Yandex token cache ──────────────────────────────────────────
 // Fetched once from GET /api/v3/app/config (protected) after login.
@@ -47,56 +48,101 @@ async function getPreferredYandexToken() {
 
 // ─── Stream URL resolution ────────────────────────────────────────────────────
 // Priority: server service token (has subscription) → local OAuth token
+
+const YANDEX_SIGN_SALT = 'XGRlBW9FXlekgbPrRHuSiA';
+const YANDEX_MUSIC_API = 'https://api.music.yandex.net';
+
+function extractXmlValue(xml, tagName) {
+  const match = String(xml || '').match(new RegExp(`<${tagName}>([^<]+)</${tagName}>`));
+  return match ? match[1] : '';
+}
+
+async function resolveStreamClientSide(trackId, albumId, token) {
+  const trackKey = albumId ? `${trackId}:${albumId}` : trackId;
+
+  // 1. Fetch download-info from Yandex
+  const diRes = await fetch(`${YANDEX_MUSIC_API}/tracks/${trackKey}/download-info`, {
+    headers: { Authorization: `OAuth ${token}` },
+  });
+  if (!diRes.ok) throw new Error(`download-info HTTP ${diRes.status}`);
+
+  const diData = await diRes.json();
+  const items = Array.isArray(diData?.result) ? diData.result : [];
+
+  // 2. Pick best bitrate
+  const bestItem = [...items]
+    .sort((a, b) => (b.bitrateInKbps || 0) - (a.bitrateInKbps || 0))
+    .find((i) => i.downloadInfoUrl);
+  if (!bestItem?.downloadInfoUrl) throw new Error('no downloadInfoUrl in download-info');
+
+  // 3. Fetch the XML with the signing parts
+  const xmlRes = await fetch(bestItem.downloadInfoUrl, {
+    headers: { Authorization: `OAuth ${token}` },
+  });
+  if (!xmlRes.ok) throw new Error(`download-info XML HTTP ${xmlRes.status}`);
+  const xml = await xmlRes.text();
+
+  const host = extractXmlValue(xml, 'host');
+  const path = extractXmlValue(xml, 'path');
+  const ts = extractXmlValue(xml, 'ts');
+  const s = extractXmlValue(xml, 's');
+  if (!host || !path || !ts || !s) throw new Error('invalid download-info XML');
+
+  // 4. Build signed MP3 URL
+  const sign = CryptoJS.MD5(YANDEX_SIGN_SALT + path.slice(1) + s).toString();
+  return `https://${host}/get-mp3/${sign}/${ts}${path}`;
+}
+
 export async function resolveYandexStreamUrl(track) {
   if (!track) return null;
 
   const trackId = String(track.id || track.trackId || '');
   if (!trackId) return null;
 
-  // 1. Get best available token (server > local)
   const token = await getPreferredYandexToken();
-
   if (!token) {
     console.warn('[yandexApi] No Yandex token available — cannot resolve stream URL');
     return null;
   }
 
-  // 2. Call dev-proxy /yandex-music/resolve-stream which handles:
-  //    download-info fetch → XML parse → MD5 sign → direct MP3 URL
-  const isLocalDev =
+  const albumId = String(track.albumId || track.albums?.[0]?.id || '');
+
+  // In local web dev, use the dev-proxy (handles CORS)
+  const isLocalWeb =
     typeof window !== 'undefined' &&
     ['localhost', '127.0.0.1'].includes(window?.location?.hostname);
 
-  // Import lazily to avoid circular dep with config
-  const { LOCAL_WEB_PROXY_BASE, API_BASE } = await import('../config.js');
-  const resolveBase = isLocalDev ? LOCAL_WEB_PROXY_BASE : API_BASE;
-  const resolveUrl = `${resolveBase}/yandex-music/resolve-stream`;
-
-  const albumId = String(track.albumId || track.albums?.[0]?.id || '');
-
-  console.log('[yandexApi] resolve-stream POST →', resolveUrl, { trackId, albumId, tokenLen: token.length });
-  try {
-    const res = await fetch(resolveUrl, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        trackId,
-        albumId: albumId || undefined,
-        token,
-      }),
-    });
-
-    if (!res.ok) {
-      const err = await res.json().catch(() => ({}));
-      console.warn('[yandexApi] resolve-stream HTTP', res.status, err);
-      throw new Error(err?.detail || err?.error || `resolve-stream HTTP ${res.status}`);
+  if (isLocalWeb) {
+    const { LOCAL_WEB_PROXY_BASE } = await import('../config.js');
+    const resolveUrl = `${LOCAL_WEB_PROXY_BASE}/yandex-music/resolve-stream`;
+    console.log('[yandexApi] resolve-stream POST →', resolveUrl, { trackId, albumId, tokenLen: token.length });
+    try {
+      const res = await fetch(resolveUrl, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ trackId, albumId: albumId || undefined, token }),
+      });
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({}));
+        throw new Error(err?.detail || err?.error || `resolve-stream HTTP ${res.status}`);
+      }
+      const data = await res.json();
+      console.log('[yandexApi] resolve-stream OK, streamUrl:', data?.streamUrl?.substring(0, 80));
+      return data?.streamUrl || null;
+    } catch (err) {
+      console.warn('[yandexApi] resolveYandexStreamUrl error:', err?.message);
+      return null;
     }
+  }
 
-    const data = await res.json();
-    console.log('[yandexApi] resolve-stream OK, streamUrl:', data?.streamUrl?.substring(0, 80));
-    return data?.streamUrl || null;
+  // On native / production — resolve directly (no CORS restrictions)
+  console.log('[yandexApi] resolving stream client-side', { trackId, albumId, tokenLen: token.length });
+  try {
+    const streamUrl = await resolveStreamClientSide(trackId, albumId, token);
+    console.log('[yandexApi] resolve OK, streamUrl:', streamUrl?.substring(0, 80));
+    return streamUrl;
   } catch (err) {
-    console.warn('[yandexApi] resolveYandexStreamUrl error:', err?.message);
+    console.warn('[yandexApi] resolveYandexStreamUrl client-side error:', err?.message);
     return null;
   }
 }

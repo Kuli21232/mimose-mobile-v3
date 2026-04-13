@@ -54,7 +54,7 @@ export default function ArtistDetailScreen({ navigation, route }) {
       albumsStat: 'Albums',
       listenersStat: 'Listeners',
     };
-  const artist = route.params?.artist || { name: copy.fallback, gradients: ['#2a2020', '#201a28'] };
+  const artist = route.params?.artist || { name: copy.fallback, gradients: ['#1a1010', '#100a18'] };
   const [following, setFollowing] = useState(false);
   const [tracks, setTracks] = useState([]);
   const [albums, setAlbums] = useState([]);
@@ -116,7 +116,7 @@ export default function ArtistDetailScreen({ navigation, route }) {
       <ScrollView style={styles.scroll} showsVerticalScrollIndicator={false}>
         <View style={[styles.hero, { paddingTop: insets.top + 60 }]}>
           <LinearGradient
-            colors={[...(artist.gradients || ['#2a2020', '#201a28']), theme.bg]}
+            colors={[...(artist.gradients || ['#1a1010', '#100a18']), theme.bg]}
             style={StyleSheet.absoluteFill}
           />
           <View style={styles.heroOverlay} />
@@ -127,7 +127,7 @@ export default function ArtistDetailScreen({ navigation, route }) {
           {artist.coverUrl ? (
             <Image source={{ uri: artist.coverUrl }} style={styles.heroAvatar} />
           ) : (
-            <LinearGradient colors={artist.gradients || ['#2a2020', '#201a28']} style={styles.heroAvatar} />
+            <LinearGradient colors={artist.gradients || ['#1a1010', '#100a18']} style={styles.heroAvatar} />
           )}
           <Text style={styles.heroName}>{artist.name}</Text>
           <View style={styles.heroMeta}>

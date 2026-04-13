@@ -39,7 +39,7 @@ loadEnvFile('.env.local');
 
 const PORT = Number(process.env.MIMOSE_DEV_PROXY_PORT || 8787);
 const API_UPSTREAM = 'https://api.mimose.fun';
-const PROXY_UPSTREAM = 'http://89.19.210.40:8080';
+const PROXY_UPSTREAM = 'http://45.95.235.196:8080';
 const YANDEX_MUSIC_UPSTREAM = 'https://api.music.yandex.net';
 const YANDEX_SIGN_SALT = 'XGRlBW9FXlekgbPrRHuSiA';
 const YANDEX_LYRICS_SIGN_SECRET = 'p93jhgh689SBReK6ghtw62';
@@ -664,7 +664,7 @@ const server = http.createServer(async (req, res) => {
   await proxyPass(req, res, targetUrl);
 });
 
-server.listen(PORT, '127.0.0.1', () => {
+server.listen(PORT, '0.0.0.0', () => {
   const tokenMode = YANDEX_SERVICE_TOKEN ? 'service token loaded' : 'no service token';
-  console.log(`Mimose dev proxy listening on http://127.0.0.1:${PORT} (${tokenMode})`);
+  console.log(`Mimose dev proxy listening on http://0.0.0.0:${PORT} (${tokenMode})`);
 });

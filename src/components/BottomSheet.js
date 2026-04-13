@@ -81,7 +81,7 @@ function createStyles(theme) {
     },
     overlay: {
       ...StyleSheet.absoluteFillObject,
-      backgroundColor: 'rgba(3, 5, 9, 0.62)',
+      backgroundColor: 'rgba(0, 0, 0, 0.75)',
     },
     sheet: {
       paddingHorizontal: 18,

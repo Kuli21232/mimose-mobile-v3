@@ -119,7 +119,7 @@ export default function PlaylistDetailScreen({ navigation, route }) {
       <ScrollView style={styles.scroll} showsVerticalScrollIndicator={false}>
         <View style={[styles.hero, { paddingTop: insets.top + 60 }]}>
           <LinearGradient
-            colors={['rgba(60,50,60,0.6)', 'rgba(30,25,35,0.8)', theme.bg]}
+            colors={['rgba(20,15,20,0.6)', 'rgba(10,8,12,0.8)', theme.bg]}
             style={StyleSheet.absoluteFill}
           />
           <View style={styles.heroOverlay} />

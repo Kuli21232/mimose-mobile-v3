@@ -7,9 +7,14 @@ const isLocalWebDebug =
   typeof window.location !== 'undefined' &&
   ['localhost', '127.0.0.1'].includes(window.location.hostname);
 
+// React Native __DEV__ flag is true when running in dev mode (Metro bundler)
+const isNativeDev = typeof __DEV__ !== 'undefined' && __DEV__ && !isLocalWebDebug;
+
 export const UPSTREAM_API_BASE = 'https://api.mimose.fun';
-export const UPSTREAM_PROXY_BASE = 'http://89.19.210.40:8080';
+export const UPSTREAM_PROXY_BASE = 'http://45.95.235.196:8080';
 export const LOCAL_WEB_PROXY_BASE = 'http://localhost:8787';
+// Android emulator accesses host machine via 10.0.2.2
+export const NATIVE_DEV_PROXY_BASE = 'http://10.0.2.2:8787';
 export const YANDEX_MUSIC_API_BASE = isLocalWebDebug
   ? `${LOCAL_WEB_PROXY_BASE}/yandex-music`
   : 'https://api.music.yandex.net';

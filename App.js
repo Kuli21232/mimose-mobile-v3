@@ -218,7 +218,7 @@ function ThemedApp() {
     colors: {
       ...NavigationDarkTheme.colors,
       background: theme.bg,
-      card: theme.tabBar,
+      card: theme.bg,
       text: theme.text,
       primary: theme.accent,
       border: theme.glassBorderStrong,
@@ -230,7 +230,7 @@ function ThemedApp() {
     <ErrorBoundary theme={theme}>
       <SafeAreaProvider>
         <NavigationContainer theme={navigationTheme}>
-          <StatusBar style="light" />
+          <StatusBar style="light" backgroundColor="#000000" translucent={false} />
           <RootNavigator />
         </NavigationContainer>
       </SafeAreaProvider>
