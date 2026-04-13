@@ -1,0 +1,12 @@
+node_modules/
+dist/
+.expo/
+android/app/build/
+android/build/
+android/.gradle/
+android/app/src/main/res/xml/network_security_config.xml.bak
+*.log
+.codex-*.log
+.codex-*.pid
+.codex-*.out.log
+.codex-*.err.log

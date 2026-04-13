@@ -1,24 +1,160 @@
-export const colors = {
-  bg: '#050505',
-  text: '#FFFFFF',
-  text80: 'rgba(255,255,255,0.80)',
-  text60: 'rgba(255,255,255,0.60)',
-  text40: 'rgba(255,255,255,0.40)',
-  text35: 'rgba(255,255,255,0.35)',
-  text30: 'rgba(255,255,255,0.30)',
-  text20: 'rgba(255,255,255,0.20)',
-  text12: 'rgba(255,255,255,0.12)',
-  text08: 'rgba(255,255,255,0.08)',
-  text06: 'rgba(255,255,255,0.06)',
-  text04: 'rgba(255,255,255,0.04)',
-  glass: 'rgba(255,255,255,0.07)',
-  glassStrong: 'rgba(255,255,255,0.10)',
-  glassBorder: 'rgba(255,255,255,0.06)',
-  glassBorderStrong: 'rgba(255,255,255,0.10)',
-  error: 'rgba(255,80,80,0.7)',
-  success: 'rgba(80,200,120,0.8)',
-  successBg: 'rgba(80,200,120,0.15)',
+import useSettingsStore from '../store/settingsStore';
+
+function hexToRgb(value) {
+  const input = String(value || '').trim();
+  if (!input) {
+    return { r: 255, g: 255, b: 255 };
+  }
+
+  const rgbMatch = input.match(/^rgba?\((\d+),\s*(\d+),\s*(\d+)/i);
+  if (rgbMatch) {
+    return {
+      r: Number(rgbMatch[1] || 255),
+      g: Number(rgbMatch[2] || 255),
+      b: Number(rgbMatch[3] || 255),
+    };
+  }
+
+  const normalized = input.replace('#', '');
+  const expanded = normalized.length === 3
+    ? normalized.split('').map((value) => `${value}${value}`).join('')
+    : normalized;
+  const numeric = Number.parseInt(expanded, 16);
+
+  if (Number.isNaN(numeric)) {
+    return { r: 255, g: 255, b: 255 };
+  }
+
+  return {
+    r: (numeric >> 16) & 255,
+    g: (numeric >> 8) & 255,
+    b: numeric & 255,
+  };
+}
+
+function alpha(hex, opacity) {
+  const { r, g, b } = hexToRgb(hex);
+  return `rgba(${r},${g},${b},${opacity})`;
+}
+
+function mix(firstHex, secondHex, ratio = 0.5) {
+  const first = hexToRgb(firstHex);
+  const second = hexToRgb(secondHex);
+  const blend = (start, end) => Math.round(start + (end - start) * ratio);
+
+  return `rgb(${blend(first.r, second.r)},${blend(first.g, second.g)},${blend(first.b, second.b)})`;
+}
+
+export const themePresets = {
+  dark: {
+    id: 'dark',
+    label: 'Dark',
+    bg: '#050505',
+    surface: '#141414',
+    surfaceStrong: '#1a1a1a',
+    text: '#ffffff',
+  },
+  amoled: {
+    id: 'amoled',
+    label: 'AMOLED',
+    bg: '#000000',
+    surface: '#0a0a0a',
+    surfaceStrong: '#121212',
+    text: '#ffffff',
+  },
+  midnight: {
+    id: 'midnight',
+    label: 'Midnight',
+    bg: '#08111d',
+    surface: '#111f31',
+    surfaceStrong: '#15283f',
+    text: '#eef4ff',
+  },
+  forest: {
+    id: 'forest',
+    label: 'Forest',
+    bg: '#08110b',
+    surface: '#122017',
+    surfaceStrong: '#183021',
+    text: '#f4fff6',
+  },
+  sunset: {
+    id: 'sunset',
+    label: 'Sunset',
+    bg: '#160b09',
+    surface: '#241310',
+    surfaceStrong: '#331914',
+    text: '#fff5ef',
+  },
 };
+
+export const accentPresets = {
+  white: '#ffffff',
+  blue: '#5b8cff',
+  purple: '#8c6eff',
+  green: '#52d38a',
+  orange: '#ff9a52',
+  red: '#ff5d6c',
+  pink: '#ff73b4',
+  teal: '#45c7bd',
+};
+
+export const textSizePresets = {
+  small: 0.94,
+  medium: 1,
+  large: 1.08,
+};
+
+export function getAppTheme(settings = {}) {
+  const baseTheme = themePresets[settings.theme] || themePresets.dark;
+  const accent = accentPresets[settings.accent] || accentPresets.white;
+  const scale = textSizePresets[settings.textSize] || textSizePresets.medium;
+  const accentSurface = mix(baseTheme.surface, accent, 0.16);
+  const accentSurfaceStrong = mix(baseTheme.surfaceStrong, accent, 0.22);
+
+  return {
+    id: baseTheme.id,
+    label: baseTheme.label,
+    scale,
+    accent,
+    accentSoft: alpha(accent, 0.16),
+    accentBorder: alpha(accent, 0.32),
+    accentMuted: alpha(accent, 0.72),
+    accentSurface,
+    accentSurfaceStrong,
+    bg: baseTheme.bg,
+    bgElevated: mix(baseTheme.bg, baseTheme.surface, 0.68),
+    text: baseTheme.text,
+    text80: alpha(baseTheme.text, 0.8),
+    text60: alpha(baseTheme.text, 0.6),
+    text45: alpha(baseTheme.text, 0.45),
+    text40: alpha(baseTheme.text, 0.4),
+    text35: alpha(baseTheme.text, 0.35),
+    text30: alpha(baseTheme.text, 0.3),
+    text20: alpha(baseTheme.text, 0.2),
+    text12: alpha(baseTheme.text, 0.12),
+    text08: alpha(baseTheme.text, 0.08),
+    text06: alpha(baseTheme.text, 0.06),
+    text04: alpha(baseTheme.text, 0.04),
+    glass: alpha(accentSurface, 0.48),
+    glassStrong: alpha(accentSurfaceStrong, 0.72),
+    glassBorder: alpha(baseTheme.text, 0.08),
+    glassBorderStrong: alpha(accent, 0.2),
+    tabBar: alpha(accentSurfaceStrong, 0.94),
+    playerBg: alpha(accentSurfaceStrong, 0.96),
+    onAccent: settings.accent === 'white' ? baseTheme.bg : '#ffffff',
+    success: '#52d38a',
+    successBg: 'rgba(82,211,138,0.15)',
+    error: '#ff6b77',
+  };
+}
+
+export function useAppTheme() {
+  const settings = useSettingsStore((state) => state.settings);
+  return getAppTheme(settings);
+}
+
+export const colors = getAppTheme();
 
 export const radius = {
   xl: 24,

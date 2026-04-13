@@ -1,8 +1,11 @@
 import React from 'react';
 import { TouchableOpacity, Text, StyleSheet } from 'react-native';
-import { colors, radius } from '../theme';
+import { radius, useAppTheme } from '../theme';
 
 export default function Pill({ label, active, onPress }) {
+  const theme = useAppTheme();
+  const styles = createStyles(theme);
+
   return (
     <TouchableOpacity
       style={[styles.pill, active && styles.pillActive]}
@@ -14,27 +17,29 @@ export default function Pill({ label, active, onPress }) {
   );
 }
 
-const styles = StyleSheet.create({
-  pill: {
-    paddingVertical: 8,
-    paddingHorizontal: 18,
-    borderRadius: radius.full,
-    backgroundColor: colors.text06,
-    borderWidth: 1,
-    borderColor: colors.text06,
-    flexShrink: 0,
-  },
-  pillActive: {
-    backgroundColor: colors.text,
-    borderColor: colors.text,
-  },
-  label: {
-    fontSize: 13,
-    fontWeight: '500',
-    color: colors.text40,
-    letterSpacing: 0.1,
-  },
-  labelActive: {
-    color: colors.bg,
-  },
-});
+function createStyles(theme) {
+  return StyleSheet.create({
+    pill: {
+      paddingVertical: 8,
+      paddingHorizontal: 18,
+      borderRadius: radius.full,
+      backgroundColor: theme.glass,
+      borderWidth: 1,
+      borderColor: theme.glassBorder,
+      flexShrink: 0,
+    },
+    pillActive: {
+      backgroundColor: theme.accent,
+      borderColor: theme.accentBorder,
+    },
+    label: {
+      fontSize: 13 * theme.scale,
+      fontWeight: '500',
+      color: theme.text60,
+      letterSpacing: 0.1,
+    },
+    labelActive: {
+      color: theme.onAccent,
+    },
+  });
+}
